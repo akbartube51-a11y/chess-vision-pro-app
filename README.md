@@ -1,105 +1,81 @@
-# Chess Vision Pro Mobile (Flutter)
+# Chess Vision Pro Mobile
 
-Chess Vision Pro Mobile is the Android + iOS companion app for the Chess Vision Pro ecosystem, focused on **offline-first puzzle solving** and **engine-assisted analysis**.
+![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.x-0175C2?logo=dart)
+![Platform](https://img.shields.io/badge/Android%20%7C%20iOS-supported-brightgreen)
 
-- Mobile repo: https://github.com/akbartube51-a11y/chess-vision-pro-app
-- Desktop reference: https://github.com/akbartube51-a11y/chess-vision-pro
+Chess Vision Pro Mobile is an Android + iOS Flutter app for the Chess Vision Pro ecosystem. It is designed for offline-first puzzle solving, local progress tracking, and engine-assisted analysis.
 
----
+## What it does
 
-## ✅ Code Completed
+- Browse and solve chess puzzles on a mobile board
+- Track puzzle progress locally with SQLite
+- Review moves and analyze positions
+- Use engine-powered hints and quick analysis when Stockfish is available
+- Support light, dark, and system themes
 
-- [x] Flutter cross-platform app foundation established
-- [x] Puzzle list/browse with rating, themes, and difficulty label
-- [x] Interactive chessboard puzzle solving (tap-to-move, FEN-based)
-- [x] Analysis board with move history and undo
-- [x] Local persistence via SQLite (puzzle progress tracking)
-- [x] Resume-aware progress (solved count, attempts)
-- [x] Light + dark + system themes
-- [x] Auto-flip board for Black
-- [x] 10 built-in sample puzzles (seeded on first launch)
-- [x] Android + iOS support from single codebase
-- [x] Core architecture with providers, routing, repository abstraction, and reusable chess board widget
-- [x] Baseline test coverage for chess logic and board rendering
+## Project status
 
----
+### Completed
 
-## 🚧 Remaining Task List
+- Flutter cross-platform app foundation
+- Puzzle list/browse with rating, themes, and difficulty labels
+- Interactive chessboard puzzle solving with FEN-based movement
+- Analysis board with move history and undo
+- Local persistence via SQLite
+- Resume-aware progress tracking
+- Light, dark, and system themes
+- Auto-flip board for Black
+- Seeded sample puzzle set
+- Android and iOS support from a single codebase
+- Provider-based architecture with routing and repository abstraction
+- Baseline test coverage for chess logic and board rendering
+- Stockfish 18 engine integration for analysis and hints
 
-- [x] Integrate **Stockfish 18** chess engine for stronger analysis and hints
-- [ ] Add online puzzle sync/import pipeline (optional cloud mode)
-- [ ] Expand puzzle dataset beyond seeded sample set
-- [ ] Add advanced training modes (timed drills, custom themes, streak tracking)
-- [ ] Improve accessibility with richer screen-reader semantics and voice guidance
-- [ ] Add localization/internationalization support
-- [ ] Increase test coverage (state management, repository layer, end-to-end flows)
-- [ ] Add CI quality gates (format, analyze, test) on pull requests
-- [ ] Add production-grade release pipeline and signing automation
-- [ ] Add in-app privacy/permissions explainer screens
-- [ ] Publish contribution guidelines and development roadmap
+### Remaining work
 
----
+- Online puzzle sync/import pipeline
+- Larger puzzle dataset
+- Advanced training modes
+- Richer accessibility and voice guidance
+- Localization / internationalization
+- Expanded tests
+- CI quality gates
+- Release/signing automation
+- Privacy and permissions screens
+- Contribution guidelines and roadmap
 
-## Tech Stack
+## Tech stack
 
-- **Flutter** (cross-platform UI)
-- **Dart 3**
-- **provider** — state management
-- **go_router** — navigation
-- **sqflite** — SQLite local storage
-- **shared_preferences** — settings persistence
+- Flutter
+- Dart 3
+- provider
+- go_router
+- sqflite
+- shared_preferences
 
----
-
-## App Architecture
+## Repository structure
 
 ```text
 lib/
   core/
-    theme/          ← AppTheme (light/dark + ChessBoardTheme extension)
-    routing/        ← go_router configuration
-    services/       ← DatabaseService (sqflite)
+    theme/
+    routing/
+    services/
   features/
-    home/           ← HomeScreen (dashboard + progress)
+    home/
     puzzles/
-      data/         ← PuzzleRepository, sample puzzle data
-      domain/       ← Puzzle, PuzzleProgress models
-      presentation/ ← PuzzleListScreen, PuzzleScreen, PuzzleProvider
-    analysis/       ← AnalysisScreen (free-play board)
-    settings/       ← SettingsScreen, SettingsProvider
+      data/
+      domain/
+      presentation/
+    analysis/
+    settings/
   shared/
-    chess_logic.dart            ← FEN parser, BoardState, Square, Piece
-    widgets/chess_board_widget  ← Reusable board UI
+    chess_logic.dart
+    widgets/chess_board_widget
 ```
 
-Principles:
-- Repository abstraction between UI and SQLite
-- ChangeNotifier-based providers for reactive UI
-- Offline-first: all data stored locally
-
-### Engine integration details
-- Added `ChessEngineService` abstraction for best-move + MultiPV + evaluation output.
-- Added `StockfishChessEngineService` (UCI process adapter) with timeout/error handling.
-- Puzzle screen now has a hint action backed by engine analysis.
-- Analysis board now has a quick analysis action backed by engine analysis.
-- If Stockfish is unavailable, the app shows a friendly message and continues without crashing.
-- Configure engine executable path with `--dart-define=STOCKFISH_EXECUTABLE=/path/to/stockfish` when needed.
-
----
-
-## Prerequisites
-
-1. Flutter SDK ≥ 3.22 (`flutter --version`)
-2. Android Studio (Android toolchain) or Xcode (iOS, macOS only)
-3. Git
-
-```bash
-flutter doctor
-```
-
----
-
-## Getting Started
+## Getting started
 
 ```bash
 git clone https://github.com/akbartube51-a11y/chess-vision-pro-app.git
@@ -108,39 +84,45 @@ flutter pub get
 flutter run
 ```
 
-The app seeds 10 sample puzzles into SQLite on first launch.
+## Prerequisites
 
----
+1. Flutter SDK 3.22 or newer
+2. Android Studio for Android or Xcode for iOS
+3. Git
 
-## Build Commands
+Check your environment:
 
-### Android APK (debug)
+```bash
+flutter doctor
+```
+
+## Build
+
+### Android debug APK
 
 ```bash
 flutter build apk --debug
 ```
 
-### Android APK (release)
+### Android release APK
 
 ```bash
 flutter build apk --release
 ```
 
-### Android App Bundle (Play Store)
+### Android App Bundle
 
 ```bash
 flutter build appbundle --release
 ```
 
-### iOS (macOS only)
+### iOS release build
 
 ```bash
 flutter build ios --release
 ```
 
-> iOS release/signing requires Apple Developer certificates and provisioning profiles.
-
----
+> iOS release builds require Apple Developer certificates and provisioning profiles.
 
 ## Tests
 
@@ -148,35 +130,29 @@ flutter build ios --release
 flutter test
 ```
 
-Tests currently cover:
-- `chess_logic_test.dart` — FEN parsing, move application, Square, Puzzle model
-- `widget_test.dart` — ChessBoardWidget rendering
+## Engine configuration
 
----
+If Stockfish is not bundled in your environment, point the app to the executable:
 
-## Accessibility Notes
+```bash
+flutter run --dart-define=STOCKFISH_EXECUTABLE=/path/to/stockfish
+```
 
-- Large, readable typography defaults
-- Sufficient touch target size (44×44 dp minimum via Flutter defaults)
-- Semantic board labels (`a1`–`h8` overlaid on board)
-- Theme contrast tuned for board and analysis readability
-- System theme auto-mode supported
+## Accessibility
 
----
+- Large readable typography
+- 44×44 dp minimum touch targets
+- Semantic board labels
+- Good board and analysis contrast
+- System theme auto-mode
 
-## Release Requirements
+## Release requirements
 
-To produce distributable builds:
+- Android keystore and signing config
+- iOS Team / Bundle ID / provisioning setup
+- Store listing assets and privacy policy
 
-- Android keystore configuration (`key.properties`, signing config in `android/app/build.gradle`)
-- iOS signing setup in Xcode (Team, Bundle ID, Provisioning)
-- Store listing metadata (icons, screenshots, privacy policy)
+## Credits
 
----
-
-## License & Credits
-
-Desktop project concept and ecosystem:
-- https://github.com/akbartube51-a11y/chess-vision-pro
-
-Developed under the AIM Akbar Hossain / Agartala Chess Academy ecosystem.
+- Desktop ecosystem reference: https://github.com/akbartube51-a11y/chess-vision-pro
+- Developed under the AIM Akbar Hossain / Agartala Chess Academy ecosystem
