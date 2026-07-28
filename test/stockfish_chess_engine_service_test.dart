@@ -27,9 +27,7 @@ void main() {
 
     test('parses best move, multipv candidates and evaluation', () async {
       final scriptFile = await _createFakeEngineScript();
-      final service = StockfishChessEngineService(
-        executable: scriptFile.path,
-      );
+      final service = StockfishChessEngineService(executable: scriptFile.path);
 
       final analysis = await service.analyzePosition(
         fen: startFen,

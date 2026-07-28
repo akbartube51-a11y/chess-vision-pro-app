@@ -85,10 +85,7 @@ class _FakeEngineService extends ChessEngineService {
     lastMoves = moves;
     if (exception != null) throw exception!;
     return analysis ??
-        const ChessEngineAnalysis(
-          bestMove: 'e2e4',
-          candidateMoves: ['e2e4'],
-        );
+        const ChessEngineAnalysis(bestMove: 'e2e4', candidateMoves: ['e2e4']);
   }
 }
 

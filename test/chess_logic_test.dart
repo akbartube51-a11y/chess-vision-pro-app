@@ -22,8 +22,10 @@ void main() {
 
     test('equality works', () {
       expect(Square.fromAlgebraic('e4'), equals(Square.fromAlgebraic('e4')));
-      expect(Square.fromAlgebraic('e4'),
-          isNot(equals(Square.fromAlgebraic('d4'))));
+      expect(
+        Square.fromAlgebraic('e4'),
+        isNot(equals(Square.fromAlgebraic('d4'))),
+      );
     });
   });
 
@@ -62,12 +64,16 @@ void main() {
       final board = BoardState.fromFen(fen);
       // White bishop on c4
       expect(board.pieceAt(Square.fromAlgebraic('c4')!)?.type, equals('B'));
-      expect(board.pieceAt(Square.fromAlgebraic('c4')!)?.color,
-          equals(PieceColor.white));
+      expect(
+        board.pieceAt(Square.fromAlgebraic('c4')!)?.color,
+        equals(PieceColor.white),
+      );
       // Black knight on f6
       expect(board.pieceAt(Square.fromAlgebraic('f6')!)?.type, equals('N'));
-      expect(board.pieceAt(Square.fromAlgebraic('f6')!)?.color,
-          equals(PieceColor.black));
+      expect(
+        board.pieceAt(Square.fromAlgebraic('f6')!)?.color,
+        equals(PieceColor.black),
+      );
     });
   });
 
@@ -95,8 +101,10 @@ void main() {
           'rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2';
       final board = BoardState.fromFen(fen).applyMove('e4d5');
       expect(board.pieceAt(Square.fromAlgebraic('d5')!)?.type, equals('P'));
-      expect(board.pieceAt(Square.fromAlgebraic('d5')!)?.color,
-          equals(PieceColor.white));
+      expect(
+        board.pieceAt(Square.fromAlgebraic('d5')!)?.color,
+        equals(PieceColor.white),
+      );
       expect(board.pieceAt(Square.fromAlgebraic('e4')!), isNull);
     });
 

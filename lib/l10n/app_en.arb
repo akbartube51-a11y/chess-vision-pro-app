@@ -1,0 +1,182 @@
+{
+  "@@locale": "en",
+  "appTitle": "Chess Vision Pro",
+  "homeTitle": "Chess Vision Pro",
+  "homeTagline": "Sharpen your tactics. Solve puzzles. Master the board.",
+  "quickAccess": "Quick Access",
+  "yourProgress": "Your Progress",
+  "solvedProgress": "{solved} / {total} solved",
+  "@solvedProgress": {
+    "placeholders": {
+      "solved": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "puzzles": "Puzzles",
+  "puzzlesAvailable": "{count} puzzles available",
+  "@puzzlesAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "analysis": "Analysis",
+  "analysisSubtitle": "Explore positions",
+  "privacy": "Privacy",
+  "privacySubtitle": "Learn what sync stores and requests",
+  "settings": "Settings",
+  "noPuzzlesAvailable": "No puzzles available.",
+  "tacticsPuzzle": "Tactics Puzzle",
+  "difficultyBeginner": "Beginner",
+  "difficultyIntermediate": "Intermediate",
+  "difficultyAdvanced": "Advanced",
+  "difficultyExpert": "Expert",
+  "trainingModes": "Training Modes",
+  "trainingModeClassic": "Classic",
+  "trainingModeTimed": "Timed",
+  "trainingModeStreak": "Streak",
+  "trainingModeTheme": "Theme",
+  "trainingModeReview": "Review",
+  "timedSession": "Timed session",
+  "remainingSeconds": "{seconds}s remaining",
+  "@remainingSeconds": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "currentStreak": "Current streak: {count}",
+  "@currentStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "themeFilter": "Theme filter",
+  "syncReady": "Online sync ready",
+  "syncLastRun": "Last sync: {value}",
+  "@syncLastRun": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "syncImported": "Imported {imported} puzzles from {source}.",
+  "@syncImported": {
+    "placeholders": {
+      "imported": {"type": "int"},
+      "source": {}
+    }
+  },
+  "syncUnavailable": "Add a puzzle source URL in Settings to sync a remote CSV export.",
+  "syncFailed": "Sync failed. Review the source URL or try again later.",
+  "puzzleTitle": "Puzzle",
+  "puzzleNumberTitle": "Puzzle #{id} · {rating}",
+  "@puzzleNumberTitle": {
+    "placeholders": {
+      "id": {"type": "int"},
+      "rating": {"type": "int"}
+    }
+  },
+  "getHint": "Get hint",
+  "flipBoard": "Flip board",
+  "resetPuzzle": "Reset puzzle",
+  "nextPuzzle": "Next Puzzle",
+  "statusLoading": "Loading...",
+  "statusYourTurn": "Your turn!",
+  "statusCorrect": "Correct! Keep going...",
+  "statusWrong": "Wrong move — try again!",
+  "statusSolved": "Puzzle solved!",
+  "hintUnavailable": "No hint available right now.",
+  "hintMessage": "Hint: {move}{evaluation}",
+  "@hintMessage": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {}
+    }
+  },
+  "hintEvalSuffix": " ({value})",
+  "@hintEvalSuffix": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "hintBanner": "Hint {move} · Eval {evaluation} · Top: {candidates}",
+  "@hintBanner": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {},
+      "candidates": {}
+    }
+  },
+  "themes": "Themes",
+  "analysisBoard": "Analysis Board",
+  "undo": "Undo",
+  "reset": "Reset",
+  "quickAnalysis": "Quick analysis",
+  "whiteToMove": "White to move",
+  "blackToMove": "Black to move",
+  "bestMoveResult": "Best move: {move}{evaluation}",
+  "@bestMoveResult": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {}
+    }
+  },
+  "couldNotAnalyze": "Could not analyze this position right now.",
+  "moveHistoryEmpty": "Tap pieces to move. History will appear here.",
+  "appearance": "Appearance",
+  "board": "Board",
+  "accessibility": "Accessibility",
+  "dataAndSync": "Data & Sync",
+  "about": "About",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "auto": "Auto",
+  "autoFlipBoard": "Auto-flip board for Black",
+  "autoFlipBoardSubtitle": "Board shows player perspective automatically",
+  "boardTheme": "Board theme",
+  "pieceStyle": "Piece style",
+  "coordinates": "Coordinates",
+  "boardThemeTournament": "Tournament",
+  "boardThemeForest": "Forest",
+  "boardThemeMidnight": "Midnight",
+  "pieceStyleClassic": "Classic figurines",
+  "pieceStyleNeo": "Neo outline",
+  "pieceStyleInitials": "Initials",
+  "coordinatesInside": "Inside board",
+  "coordinatesOutside": "Outside board",
+  "coordinatesHidden": "Hidden",
+  "voiceGuidance": "Voice guidance",
+  "voiceGuidanceSubtitle": "Announce board and puzzle feedback through accessibility services",
+  "voiceVerbosity": "Voice verbosity",
+  "voiceVerbosityConcise": "Concise",
+  "voiceVerbosityDetailed": "Detailed",
+  "language": "Language",
+  "languageSystem": "System default",
+  "privacyAndPermissions": "Privacy & permissions",
+  "privacyAndPermissionsSubtitle": "Review what network requests are made and how data is stored",
+  "onlinePuzzleSync": "Online puzzle sync",
+  "sourceUrl": "Source URL",
+  "sourceUrlHelper": "Use a direct CSV link or a decompressed Lichess-compatible mirror.",
+  "editSourceUrl": "Edit source URL",
+  "clear": "Clear",
+  "cancel": "Cancel",
+  "save": "Save",
+  "syncNow": "Sync now",
+  "syncInProgress": "Syncing puzzle data...",
+  "syncSourceNotice": "Only import datasets with open licenses such as CC0 or CC BY.",
+  "privacyScreenTitle": "Privacy & permissions",
+  "privacySummary": "Chess Vision Pro stores puzzles locally, tracks solve progress on-device, and only contacts remote puzzle sources that you configure.",
+  "privacyNetworkHeading": "External requests",
+  "privacyNetworkBody": "When online sync is enabled, the app downloads puzzle CSV data from your configured source URL. No analytics or ads are bundled into the sync pipeline.",
+  "privacyStorageHeading": "Stored locally",
+  "privacyStorageBody": "The app stores puzzles, sync metadata, theme settings, language choice, and puzzle progress in local SQLite and Shared Preferences storage.",
+  "privacyPermissionsHeading": "Permissions",
+  "privacyPermissionsBody": "No special runtime permissions are required for the current desktop/mobile flows. Future signed desktop releases may add platform-specific prompts for file import or speech services.",
+  "privacyLicenseHeading": "Source requirements",
+  "privacyLicenseBody": "Only import openly licensed puzzle data. The bundled sample feed mirrors public CC0-compatible records and stores attribution metadata alongside sync state.",
+  "privacyDocsLink": "See README and docs/privacy_and_permissions.md for contributor guidance.",
+  "openSource": "Open Source",
+  "openSourceSubtitle": "github.com/akbartube51-a11y/chess-vision-pro-app",
+  "boardFocusHelp": "Use arrow keys to move square focus and press Enter or Space to play a move.",
+  "timedExpired": "Time expired for this round.",
+  "sourceNotConfigured": "No source URL configured. The bundled sample URL will be used when available."
+}

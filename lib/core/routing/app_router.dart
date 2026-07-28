@@ -4,6 +4,7 @@ import '../../features/analysis/analysis_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/puzzles/presentation/puzzle_list_screen.dart';
 import '../../features/puzzles/presentation/puzzle_screen.dart';
+import '../../features/settings/privacy_screen.dart';
 import '../../features/settings/settings_screen.dart';
 
 class AppRouter {
@@ -12,10 +13,7 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const HomeScreen(),
-      ),
+      GoRoute(path: '/', builder: (context, state) => const HomeScreen()),
       GoRoute(
         path: '/puzzles',
         builder: (context, state) => const PuzzleListScreen(),
@@ -36,6 +34,10 @@ class AppRouter {
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (context, state) => const PrivacyScreen(),
       ),
     ],
   );

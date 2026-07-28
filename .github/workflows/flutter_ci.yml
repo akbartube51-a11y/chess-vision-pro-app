@@ -5,6 +5,11 @@ on:
     branches: [ main, develop ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: flutter-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
@@ -29,6 +34,9 @@ jobs:
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
+
+      - name: Generate localizations
+        run: flutter gen-l10n
 
       - name: Analyze code
         run: flutter analyze --fatal-infos
@@ -62,6 +70,9 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Generate localizations
+        run: flutter gen-l10n
 
       - name: Build APK (debug)
         run: flutter build apk --debug

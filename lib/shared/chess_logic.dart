@@ -133,10 +133,7 @@ class BoardState {
 
     if (from == null || to == null) return this;
 
-    final newBoard = List.generate(
-      8,
-      (r) => List<Piece?>.from(pieces[r]),
-    );
+    final newBoard = List.generate(8, (r) => List<Piece?>.from(pieces[r]));
 
     final movingPiece = newBoard[from.rank][from.file];
     if (movingPiece == null) return this;

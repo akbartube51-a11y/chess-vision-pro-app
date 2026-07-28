@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/accessibility/voice_guidance_service.dart';
+import '../../core/localization/localization_extensions.dart';
 import '../../core/services/chess_engine_service.dart';
 import '../../shared/chess_logic.dart';
 import '../../shared/widgets/chess_board_widget.dart';
+import '../settings/providers/settings_provider.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -17,6 +20,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   static const String _startFen =
       'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
+  final VoiceGuidanceService _voiceGuidanceService =
+      const VoiceGuidanceService();
   late BoardState _boardState;
   Square? _selectedSquare;
   Square? _lastMoveFrom;
@@ -54,7 +59,6 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       return;
     }
 
-    // Apply move (no legality check in analysis mode — free exploration)
     final from = _selectedSquare!;
     final uci = '${from.toAlgebraic()}${sq.toAlgebraic()}';
     _history.add(_boardState);
@@ -92,6 +96,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   Future<void> _runQuickAnalysis() async {
     if (_analysisLoading) return;
+    final settings = context.read<SettingsProvider>();
+    final l10n = context.l10n;
     setState(() {
       _analysisLoading = true;
       _analysisResult = null;
@@ -106,11 +112,22 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         timeout: const Duration(seconds: 2),
       );
       if (!mounted) return;
-      final evalText =
-          analysis.evaluation != null ? ' (${analysis.evaluation!.label})' : '';
+      final evalText = analysis.evaluation != null
+          ? l10n.hintEvalSuffix(analysis.evaluation!.label)
+          : '';
+      final result = l10n.bestMoveResult(analysis.bestMove, evalText);
       setState(() {
-        _analysisResult = 'Best move: ${analysis.bestMove}$evalText';
+        _analysisResult = result;
       });
+      await _voiceGuidanceService.announce(
+        context,
+        _voiceGuidanceService.withVerbosity(
+          headline: result,
+          details: analysis.candidateMoves.join(', '),
+          verbosity: settings.voiceGuidanceVerbosity,
+        ),
+        enabled: settings.voiceGuidanceEnabled,
+      );
     } on ChessEngineException catch (e) {
       if (!mounted) return;
       setState(() {
@@ -119,7 +136,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        _analysisResult = 'Could not analyze this position right now.';
+        _analysisResult = l10n.couldNotAnalyze;
       });
     } finally {
       if (mounted) {
@@ -130,27 +147,30 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sideLabel =
-        _boardState.sideToMove == PieceColor.white ? 'White' : 'Black';
+    final sideLabel = _boardState.sideToMove == PieceColor.white
+        ? context.l10n.whiteToMove
+        : context.l10n.blackToMove;
+    final l10n = context.l10n;
+    final settings = context.watch<SettingsProvider>();
 
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(onPressed: () => context.go('/')),
-        title: const Text('Analysis Board'),
+        title: Text(l10n.analysisBoard),
         actions: [
           IconButton(
             icon: const Icon(Icons.flip),
-            tooltip: 'Flip board',
+            tooltip: l10n.flipBoard,
             onPressed: () => setState(() => _flipped = !_flipped),
           ),
           IconButton(
             icon: const Icon(Icons.undo),
-            tooltip: 'Undo',
+            tooltip: l10n.undo,
             onPressed: _history.isNotEmpty ? _undoMove : null,
           ),
           IconButton(
             icon: const Icon(Icons.restart_alt),
-            tooltip: 'Reset',
+            tooltip: l10n.reset,
             onPressed: _resetBoard,
           ),
           IconButton(
@@ -160,7 +180,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.analytics_outlined),
-            tooltip: 'Quick analysis',
+            tooltip: l10n.quickAnalysis,
             onPressed: _analysisLoading ? null : _runQuickAnalysis,
           ),
         ],
@@ -172,7 +192,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             color: Theme.of(context).colorScheme.primaryContainer,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
-              '$sideLabel to move',
+              sideLabel,
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
           ),
@@ -187,6 +207,10 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                   lastMoveTo: _lastMoveTo,
                   onSquareTap: _onSquareTap,
                   flipped: _flipped,
+                  pieceStyle: settings.pieceSetStyle,
+                  coordinateStyle: settings.coordinateStyle,
+                  boardLabel: l10n.analysisBoard,
+                  keyboardHelpText: l10n.boardFocusHelp,
                 ),
               ),
             ),
@@ -216,12 +240,12 @@ class _MoveHistoryPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (moves.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.all(12),
+      return Padding(
+        padding: const EdgeInsets.all(12),
         child: Text(
-          'Tap pieces to move. History will appear here.',
+          context.l10n.moveHistoryEmpty,
           textAlign: TextAlign.center,
-          style: TextStyle(fontStyle: FontStyle.italic),
+          style: const TextStyle(fontStyle: FontStyle.italic),
         ),
       );
     }
@@ -237,18 +261,16 @@ class _MoveHistoryPanel extends StatelessWidget {
       height: 80,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLow,
-        border: Border(
-          top: BorderSide(color: Theme.of(context).dividerColor),
-        ),
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
       ),
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(12),
         children: pairs
             .map(
-              (p) => Padding(
+              (pair) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: Chip(label: Text(p)),
+                child: Chip(label: Text(pair)),
               ),
             )
             .toList(),
