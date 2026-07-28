@@ -20,7 +20,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   static const String _startFen =
       'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
-  final VoiceGuidanceService _voiceGuidanceService = const VoiceGuidanceService();
+  final VoiceGuidanceService _voiceGuidanceService =
+      const VoiceGuidanceService();
   late BoardState _boardState;
   Square? _selectedSquare;
   Square? _lastMoveFrom;
@@ -111,8 +112,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         timeout: const Duration(seconds: 2),
       );
       if (!mounted) return;
-      final evalText =
-          analysis.evaluation != null ? l10n.hintEvalSuffix(analysis.evaluation!.label) : '';
+      final evalText = analysis.evaluation != null
+          ? l10n.hintEvalSuffix(analysis.evaluation!.label)
+          : '';
       final result = l10n.bestMoveResult(analysis.bestMove, evalText);
       setState(() {
         _analysisResult = result;

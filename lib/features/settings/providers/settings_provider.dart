@@ -28,8 +28,7 @@ class SettingsProvider extends ChangeNotifier {
 
   VoiceGuidanceVerbosity _voiceGuidanceVerbosity =
       VoiceGuidanceVerbosity.concise;
-  VoiceGuidanceVerbosity get voiceGuidanceVerbosity =>
-      _voiceGuidanceVerbosity;
+  VoiceGuidanceVerbosity get voiceGuidanceVerbosity => _voiceGuidanceVerbosity;
 
   String? _localeCode;
   String? get localeCode => _localeCode;
@@ -73,14 +72,11 @@ class SettingsProvider extends ChangeNotifier {
     _themeMode = mode;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      'theme_mode',
-      switch (mode) {
-        ThemeMode.light => 'light',
-        ThemeMode.dark => 'dark',
-        _ => 'system',
-      },
-    );
+    await prefs.setString('theme_mode', switch (mode) {
+      ThemeMode.light => 'light',
+      ThemeMode.dark => 'dark',
+      _ => 'system',
+    });
   }
 
   Future<void> setBoardFlipEnabled(bool value) async {

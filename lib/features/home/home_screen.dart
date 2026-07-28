@@ -96,12 +96,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 8),
-                    Text(provider.syncState?.attribution ?? l10n.syncSourceNotice),
+                    Text(
+                      provider.syncState?.attribution ?? l10n.syncSourceNotice,
+                    ),
                     if (provider.syncState?.lastSyncedAt != null) ...[
                       const SizedBox(height: 8),
                       Text(
                         l10n.syncLastRun(
-                          provider.syncState!.lastSyncedAt!.toLocal().toString(),
+                          provider.syncState!.lastSyncedAt!
+                              .toLocal()
+                              .toString(),
                         ),
                       ),
                     ],
@@ -130,7 +134,10 @@ class _HeroHeader extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [colorScheme.primaryContainer, colorScheme.secondaryContainer],
+          colors: [
+            colorScheme.primaryContainer,
+            colorScheme.secondaryContainer,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -142,15 +149,15 @@ class _HeroHeader extends StatelessWidget {
           Text(
             '♔ ${l10n.appTitle}',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: colorScheme.onPrimaryContainer,
-                ),
+              color: colorScheme.onPrimaryContainer,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.homeTagline,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withOpacity(0.8),
-                ),
+              color: colorScheme.onPrimaryContainer.withOpacity(0.8),
+            ),
           ),
         ],
       ),
@@ -234,10 +241,9 @@ class _MenuCard extends StatelessWidget {
               const Spacer(),
               Text(
                 label,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
               ),
               Text(
                 subtitle,

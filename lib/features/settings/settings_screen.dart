@@ -46,7 +46,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ],
               selected: {settings.themeMode},
-              onSelectionChanged: (values) => settings.setThemeMode(values.first),
+              onSelectionChanged: (values) =>
+                  settings.setThemeMode(values.first),
               style: const ButtonStyle(visualDensity: VisualDensity.compact),
             ),
           ),
@@ -112,14 +113,8 @@ class SettingsScreen extends StatelessWidget {
                   value: 'system',
                   child: Text(l10n.languageSystem),
                 ),
-                const DropdownMenuItem(
-                  value: 'en',
-                  child: Text('English'),
-                ),
-                const DropdownMenuItem(
-                  value: 'es',
-                  child: Text('Español'),
-                ),
+                const DropdownMenuItem(value: 'en', child: Text('English')),
+                const DropdownMenuItem(value: 'es', child: Text('Español')),
               ],
               onChanged: (value) =>
                   settings.setLocaleCode(value == 'system' ? null : value),
@@ -130,7 +125,9 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.cloud_sync_outlined),
             title: Text(l10n.onlinePuzzleSync),
-            subtitle: Text(settings.puzzleSourceUrl ?? l10n.sourceNotConfigured),
+            subtitle: Text(
+              settings.puzzleSourceUrl ?? l10n.sourceNotConfigured,
+            ),
             trailing: TextButton(
               onPressed: () => _editSourceUrl(context, settings),
               child: Text(l10n.editSourceUrl),
@@ -148,7 +145,9 @@ class SettingsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Text(
-                l10n.syncLastRun(provider.syncState!.lastSyncedAt!.toLocal().toString()),
+                l10n.syncLastRun(
+                  provider.syncState!.lastSyncedAt!.toLocal().toString(),
+                ),
               ),
             ),
           Padding(
@@ -160,7 +159,9 @@ class SettingsScreen extends StatelessWidget {
                       final messenger = ScaffoldMessenger.of(context);
                       messenger
                         ..hideCurrentSnackBar()
-                        ..showSnackBar(SnackBar(content: Text(l10n.syncInProgress)));
+                        ..showSnackBar(
+                          SnackBar(content: Text(l10n.syncInProgress)),
+                        );
                       final report = await context
                           .read<PuzzleProvider>()
                           .syncFromSourceUrl(settings.puzzleSourceUrl);
@@ -350,8 +351,8 @@ class _SectionHeader extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-            ),
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }

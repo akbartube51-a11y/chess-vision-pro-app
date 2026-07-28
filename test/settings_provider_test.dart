@@ -41,6 +41,9 @@ void main() {
 
     expect(provider.puzzleSourceUrl, 'https://example.com/feed.csv');
     final prefs = await SharedPreferences.getInstance();
-    expect(prefs.getString('puzzle_source_url'), 'https://example.com/feed.csv');
+    expect(
+      prefs.getString('puzzle_source_url'),
+      'https://example.com/feed.csv',
+    );
   });
 }

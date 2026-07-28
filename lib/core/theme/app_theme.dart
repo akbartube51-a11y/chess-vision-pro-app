@@ -5,18 +5,14 @@ import 'app_preferences.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData lightTheme({
-    required BoardThemePreset boardThemePreset,
-  }) {
+  static ThemeData lightTheme({required BoardThemePreset boardThemePreset}) {
     return _buildTheme(
       brightness: Brightness.light,
       boardThemePreset: boardThemePreset,
     );
   }
 
-  static ThemeData darkTheme({
-    required BoardThemePreset boardThemePreset,
-  }) {
+  static ThemeData darkTheme({required BoardThemePreset boardThemePreset}) {
     return _buildTheme(
       brightness: Brightness.dark,
       boardThemePreset: boardThemePreset,
@@ -84,32 +80,32 @@ class AppTheme {
     final isDark = brightness == Brightness.dark;
     return switch (preset) {
       BoardThemePreset.tournament => _BoardPalette(
-          seedColor: const Color(0xFF1A6B3A),
-          lightSquare: isDark ? const Color(0xFFDDD7C1) : const Color(0xFFF0D9B5),
-          darkSquare: isDark ? const Color(0xFF8B6F47) : const Color(0xFFB58863),
-          highlight: const Color(0xFFAFF650),
-          lastMoveHighlight: const Color(0xCCF6F669),
-          borderColor: isDark ? const Color(0xFF4B5563) : const Color(0xFFD1D5DB),
-          focusRing: const Color(0xFF2563EB),
-        ),
+        seedColor: const Color(0xFF1A6B3A),
+        lightSquare: isDark ? const Color(0xFFDDD7C1) : const Color(0xFFF0D9B5),
+        darkSquare: isDark ? const Color(0xFF8B6F47) : const Color(0xFFB58863),
+        highlight: const Color(0xFFAFF650),
+        lastMoveHighlight: const Color(0xCCF6F669),
+        borderColor: isDark ? const Color(0xFF4B5563) : const Color(0xFFD1D5DB),
+        focusRing: const Color(0xFF2563EB),
+      ),
       BoardThemePreset.forest => _BoardPalette(
-          seedColor: const Color(0xFF285943),
-          lightSquare: isDark ? const Color(0xFFCCD8C4) : const Color(0xFFE9F0E3),
-          darkSquare: isDark ? const Color(0xFF557A5B) : const Color(0xFF769656),
-          highlight: const Color(0xFFF4D35E),
-          lastMoveHighlight: const Color(0xCCFFE082),
-          borderColor: isDark ? const Color(0xFF334155) : const Color(0xFFB8C5B1),
-          focusRing: const Color(0xFF0EA5E9),
-        ),
+        seedColor: const Color(0xFF285943),
+        lightSquare: isDark ? const Color(0xFFCCD8C4) : const Color(0xFFE9F0E3),
+        darkSquare: isDark ? const Color(0xFF557A5B) : const Color(0xFF769656),
+        highlight: const Color(0xFFF4D35E),
+        lastMoveHighlight: const Color(0xCCFFE082),
+        borderColor: isDark ? const Color(0xFF334155) : const Color(0xFFB8C5B1),
+        focusRing: const Color(0xFF0EA5E9),
+      ),
       BoardThemePreset.midnight => _BoardPalette(
-          seedColor: const Color(0xFF3B82F6),
-          lightSquare: isDark ? const Color(0xFFBFC8D6) : const Color(0xFFDDE5F2),
-          darkSquare: isDark ? const Color(0xFF4B5B7A) : const Color(0xFF6C7A9A),
-          highlight: const Color(0xFFFB7185),
-          lastMoveHighlight: const Color(0xCCFDA4AF),
-          borderColor: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
-          focusRing: const Color(0xFFF59E0B),
-        ),
+        seedColor: const Color(0xFF3B82F6),
+        lightSquare: isDark ? const Color(0xFFBFC8D6) : const Color(0xFFDDE5F2),
+        darkSquare: isDark ? const Color(0xFF4B5B7A) : const Color(0xFF6C7A9A),
+        highlight: const Color(0xFFFB7185),
+        lastMoveHighlight: const Color(0xCCFDA4AF),
+        borderColor: isDark ? const Color(0xFF475569) : const Color(0xFFCBD5E1),
+        focusRing: const Color(0xFFF59E0B),
+      ),
     };
   }
 }
@@ -178,8 +174,11 @@ class ChessBoardTheme extends ThemeExtension<ChessBoardTheme> {
       lightSquare: Color.lerp(lightSquare, other.lightSquare, t)!,
       darkSquare: Color.lerp(darkSquare, other.darkSquare, t)!,
       highlight: Color.lerp(highlight, other.highlight, t)!,
-      lastMoveHighlight:
-          Color.lerp(lastMoveHighlight, other.lastMoveHighlight, t)!,
+      lastMoveHighlight: Color.lerp(
+        lastMoveHighlight,
+        other.lastMoveHighlight,
+        t,
+      )!,
       borderColor: Color.lerp(borderColor, other.borderColor, t)!,
       focusRing: Color.lerp(focusRing, other.focusRing, t)!,
     );

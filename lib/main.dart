@@ -61,9 +61,7 @@ class ChessVisionProApp extends StatelessWidget {
     final settings = context.watch<SettingsProvider>();
     return MaterialApp.router(
       title: 'Chess Vision Pro',
-      theme: AppTheme.lightTheme(
-        boardThemePreset: settings.boardThemePreset,
-      ),
+      theme: AppTheme.lightTheme(boardThemePreset: settings.boardThemePreset),
       darkTheme: AppTheme.darkTheme(
         boardThemePreset: settings.boardThemePreset,
       ),

@@ -6,13 +6,17 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('streams lichess-compatible CSV in chunks', () async {
-    const csv = 'PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags\n'
+    const csv =
+        'PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags\n'
         'id1,8/8/8/8/8/8/8/K6k w - - 0 1,a1a2 h1h2,1100,75,0,0,mateIn1,https://example.com,KingEndings\n'
         'id2,8/8/8/8/8/8/8/K6k w - - 0 1,a1b1 h1g1,1400,75,0,0,fork pin,https://example.com,\n';
     final source = LichessPuzzleSource(client: _FakeNetworkClient(csv));
 
     final chunks = await source
-        .streamPuzzles(uri: Uri.parse('https://example.com/export.csv'), batchSize: 1)
+        .streamPuzzles(
+          uri: Uri.parse('https://example.com/export.csv'),
+          batchSize: 1,
+        )
         .toList();
 
     expect(chunks, hasLength(2));
@@ -23,7 +27,8 @@ void main() {
   });
 
   test('resumes from cursor', () async {
-    const csv = 'PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags\n'
+    const csv =
+        'PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags\n'
         'id1,8/8/8/8/8/8/8/K6k w - - 0 1,a1a2 h1h2,1100,75,0,0,mateIn1,https://example.com,KingEndings\n'
         'id2,8/8/8/8/8/8/8/K6k w - - 0 1,a1b1 h1g1,1400,75,0,0,fork pin,https://example.com,\n';
     final source = LichessPuzzleSource(client: _FakeNetworkClient(csv));

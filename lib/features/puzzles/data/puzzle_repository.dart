@@ -40,7 +40,11 @@ class PuzzleRepository {
   }
 
   Future<Puzzle?> fetchPuzzleById(int id) async {
-    final rows = await _db.db.query('puzzles', where: 'id = ?', whereArgs: [id]);
+    final rows = await _db.db.query(
+      'puzzles',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     if (rows.isEmpty) return null;
     return Puzzle.fromMap(rows.first);
   }
@@ -128,8 +132,7 @@ class PuzzleRepository {
       [source, ...externalIds],
     );
     return {
-      for (final row in rows)
-        row['external_id'] as String: row['id'] as int,
+      for (final row in rows) row['external_id'] as String: row['id'] as int,
     };
   }
 

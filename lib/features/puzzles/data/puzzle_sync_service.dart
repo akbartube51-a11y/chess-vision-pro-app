@@ -52,15 +52,15 @@ class PuzzleSyncService {
                       attribution: source.attribution,
                     ))
                 .copyWith(
-              cursor: cursor,
-              contentHash: chunk.contentHash,
-              datasetVersion: chunk.datasetVersion,
-              importedCount:
-                  (baselineState?.importedCount ?? 0) + importedCount,
-              lastSyncedAt: DateTime.now(),
-              attribution: source.attribution,
-              clearError: true,
-            ),
+                  cursor: cursor,
+                  contentHash: chunk.contentHash,
+                  datasetVersion: chunk.datasetVersion,
+                  importedCount:
+                      (baselineState?.importedCount ?? 0) + importedCount,
+                  lastSyncedAt: DateTime.now(),
+                  attribution: source.attribution,
+                  clearError: true,
+                ),
           );
         }
 
@@ -80,10 +80,10 @@ class PuzzleSyncService {
                     attribution: source.attribution,
                   ))
               .copyWith(
-            cursor: cursor,
-            lastError: error.toString(),
-            attribution: source.attribution,
-          ),
+                cursor: cursor,
+                lastError: error.toString(),
+                attribution: source.attribution,
+              ),
         );
         if (retries >= maxRetries) rethrow;
         await Future<void>.delayed(initialBackoff * retries);

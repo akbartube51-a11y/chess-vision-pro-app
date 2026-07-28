@@ -23,10 +23,22 @@ class PrivacyScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 16),
-          _Section(title: l10n.privacyNetworkHeading, body: l10n.privacyNetworkBody),
-          _Section(title: l10n.privacyStorageHeading, body: l10n.privacyStorageBody),
-          _Section(title: l10n.privacyPermissionsHeading, body: l10n.privacyPermissionsBody),
-          _Section(title: l10n.privacyLicenseHeading, body: l10n.privacyLicenseBody),
+          _Section(
+            title: l10n.privacyNetworkHeading,
+            body: l10n.privacyNetworkBody,
+          ),
+          _Section(
+            title: l10n.privacyStorageHeading,
+            body: l10n.privacyStorageBody,
+          ),
+          _Section(
+            title: l10n.privacyPermissionsHeading,
+            body: l10n.privacyPermissionsBody,
+          ),
+          _Section(
+            title: l10n.privacyLicenseHeading,
+            body: l10n.privacyLicenseBody,
+          ),
           const SizedBox(height: 12),
           Text(
             l10n.privacyDocsLink,
