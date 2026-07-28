@@ -64,8 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _MenuCard(
                   icon: Icons.extension,
                   label: 'Puzzles',
-                  subtitle:
-                      '${provider.totalCount} puzzles available',
+                  subtitle: '${provider.totalCount} puzzles available',
                   color: colorScheme.primaryContainer,
                   onTap: () => context.go('/puzzles'),
                 ),
@@ -120,7 +119,7 @@ class _HeroHeader extends StatelessWidget {
           Text(
             'Sharpen your tactics. Solve puzzles. Master the board.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+                  color: colorScheme.onPrimaryContainer.withOpacity(0.8),
                 ),
           ),
         ],

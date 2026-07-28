@@ -108,8 +108,7 @@ class PuzzleProvider extends ChangeNotifier {
     if (_boardState == null || _currentPuzzle == null) return;
 
     final piece = _boardState!.pieceAt(sq);
-    final playerColor =
-        _flipped ? PieceColor.black : PieceColor.white;
+    final playerColor = _flipped ? PieceColor.black : PieceColor.white;
 
     if (_selectedSquare == null) {
       // Select a piece belonging to the player
@@ -149,7 +148,8 @@ class PuzzleProvider extends ChangeNotifier {
     final expected = puzzle.moves[_moveIndex];
     // Accept promotion moves even if promotion piece differs (auto-queen)
     final uciBase = uci.length >= 4 ? uci.substring(0, 4) : uci;
-    final expectedBase = expected.length >= 4 ? expected.substring(0, 4) : expected;
+    final expectedBase =
+        expected.length >= 4 ? expected.substring(0, 4) : expected;
 
     if (uciBase == expectedBase) {
       _applyMove(expected); // apply with correct promotion if any
@@ -194,12 +194,11 @@ class PuzzleProvider extends ChangeNotifier {
     final puzzle = _currentPuzzle;
     if (puzzle == null) return;
     final existing = await _repo.fetchProgress(puzzle.id);
-    final progress = (existing ?? PuzzleProgress(puzzleId: puzzle.id))
-        .copyWith(
-          solved: true,
-          attempts: (existing?.attempts ?? 0) + 1,
-          lastAttempted: DateTime.now(),
-        );
+    final progress = (existing ?? PuzzleProgress(puzzleId: puzzle.id)).copyWith(
+      solved: true,
+      attempts: (existing?.attempts ?? 0) + 1,
+      lastAttempted: DateTime.now(),
+    );
     await _repo.saveProgress(progress);
     _solvedCount = await _repo.countSolved();
     notifyListeners();
@@ -207,11 +206,10 @@ class PuzzleProvider extends ChangeNotifier {
 
   Future<void> markAttempt(int puzzleId) async {
     final existing = await _repo.fetchProgress(puzzleId);
-    final progress = (existing ?? PuzzleProgress(puzzleId: puzzleId))
-        .copyWith(
-          attempts: (existing?.attempts ?? 0) + 1,
-          lastAttempted: DateTime.now(),
-        );
+    final progress = (existing ?? PuzzleProgress(puzzleId: puzzleId)).copyWith(
+      attempts: (existing?.attempts ?? 0) + 1,
+      lastAttempted: DateTime.now(),
+    );
     await _repo.saveProgress(progress);
   }
 

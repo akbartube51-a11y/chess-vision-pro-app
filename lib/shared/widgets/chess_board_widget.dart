@@ -54,8 +54,9 @@ class ChessBoardWidget extends StatelessWidget {
                   } else if (isLastMove) {
                     squareColor = boardTheme.lastMoveHighlight;
                   } else {
-                    squareColor =
-                        isLight ? boardTheme.lightSquare : boardTheme.darkSquare;
+                    squareColor = isLight
+                        ? boardTheme.lightSquare
+                        : boardTheme.darkSquare;
                   }
 
                   return GestureDetector(
