@@ -22,13 +22,13 @@ void main() {
 
     test('equality works', () {
       expect(Square.fromAlgebraic('e4'), equals(Square.fromAlgebraic('e4')));
-      expect(Square.fromAlgebraic('e4'), isNot(equals(Square.fromAlgebraic('d4'))));
+      expect(Square.fromAlgebraic('e4'),
+          isNot(equals(Square.fromAlgebraic('d4'))));
     });
   });
 
   group('BoardState.fromFen', () {
-    const startFen =
-        'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    const startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
     test('starting position has white rooks on a1 and h1', () {
       final board = BoardState.fromFen(startFen);
@@ -72,8 +72,7 @@ void main() {
   });
 
   group('BoardState.applyMove', () {
-    const startFen =
-        'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    const startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
     test('e2e4 moves pawn from e2 to e4', () {
       final board = BoardState.fromFen(startFen).applyMove('e2e4');
@@ -96,8 +95,8 @@ void main() {
           'rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2';
       final board = BoardState.fromFen(fen).applyMove('e4d5');
       expect(board.pieceAt(Square.fromAlgebraic('d5')!)?.type, equals('P'));
-      expect(
-          board.pieceAt(Square.fromAlgebraic('d5')!)?.color, equals(PieceColor.white));
+      expect(board.pieceAt(Square.fromAlgebraic('d5')!)?.color,
+          equals(PieceColor.white));
       expect(board.pieceAt(Square.fromAlgebraic('e4')!), isNull);
     });
 

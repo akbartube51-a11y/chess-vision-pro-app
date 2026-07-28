@@ -64,8 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 _MenuCard(
                   icon: Icons.extension,
                   label: 'Puzzles',
-                  subtitle:
-                      '${provider.totalCount} puzzles available',
+                  subtitle: '${provider.totalCount} puzzles available',
                   color: colorScheme.primaryContainer,
                   onTap: () => context.go('/puzzles'),
                 ),

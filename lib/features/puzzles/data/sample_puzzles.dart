@@ -3,7 +3,8 @@
 const List<Map<String, dynamic>> kSamplePuzzles = [
   {
     'external_id': 'sample_001',
-    'fen': 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4',
+    'fen':
+        'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4',
     'moves': 'f3g5 d8f6 g5f7',
     'rating': 1200,
     'themes': 'fork sacrifice',
@@ -51,7 +52,8 @@ const List<Map<String, dynamic>> kSamplePuzzles = [
   },
   {
     'external_id': 'sample_007',
-    'fen': 'r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5',
+    'fen':
+        'r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 6 5',
     'moves': 'c4f7 e8f7 f3e5 f7e8 e5c6',
     'rating': 1700,
     'themes': 'sacrifice fork',
@@ -75,7 +77,8 @@ const List<Map<String, dynamic>> kSamplePuzzles = [
   },
   {
     'external_id': 'sample_010',
-    'fen': '1r2k2r/pbqn1ppp/1p2pn2/2pp4/2PP4/1PN1PN2/PBQ2PPP/R3KB1R w KQk - 0 10',
+    'fen':
+        '1r2k2r/pbqn1ppp/1p2pn2/2pp4/2PP4/1PN1PN2/PBQ2PPP/R3KB1R w KQk - 0 10',
     'moves': 'c3d5 c7b8 d5b6 a7b6 c4d5',
     'rating': 1900,
     'themes': 'sacrifice deflection',

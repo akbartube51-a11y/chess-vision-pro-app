@@ -93,11 +93,31 @@ class _StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (label, color, icon) = switch (state) {
-      PuzzleSolveState.idle => ('Loading...', Colors.grey, Icons.hourglass_empty),
-      PuzzleSolveState.playing => ('Your turn!', Theme.of(context).colorScheme.primaryContainer, Icons.lightbulb_outline),
-      PuzzleSolveState.correct => ('Correct! Keep going...', Colors.green.shade100, Icons.check),
-      PuzzleSolveState.wrong => ('Wrong move — try again!', Colors.red.shade100, Icons.close),
-      PuzzleSolveState.solved => ('Puzzle solved! 🎉', Colors.green.shade200, Icons.star),
+      PuzzleSolveState.idle => (
+          'Loading...',
+          Colors.grey,
+          Icons.hourglass_empty
+        ),
+      PuzzleSolveState.playing => (
+          'Your turn!',
+          Theme.of(context).colorScheme.primaryContainer,
+          Icons.lightbulb_outline
+        ),
+      PuzzleSolveState.correct => (
+          'Correct! Keep going...',
+          Colors.green.shade100,
+          Icons.check
+        ),
+      PuzzleSolveState.wrong => (
+          'Wrong move — try again!',
+          Colors.red.shade100,
+          Icons.close
+        ),
+      PuzzleSolveState.solved => (
+          'Puzzle solved! 🎉',
+          Colors.green.shade200,
+          Icons.star
+        ),
     };
 
     return Container(
@@ -146,8 +166,7 @@ class _PuzzleInfoCard extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                   ),
-                if (puzzle.themes.isEmpty)
-                  const Chip(label: Text('tactics')),
+                if (puzzle.themes.isEmpty) const Chip(label: Text('tactics')),
               ],
             ),
           ],

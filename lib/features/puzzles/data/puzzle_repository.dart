@@ -83,8 +83,7 @@ class PuzzleRepository {
   }
 
   Future<int> countTotal() async {
-    final rows =
-        await _db.db.rawQuery('SELECT COUNT(*) as c FROM puzzles');
+    final rows = await _db.db.rawQuery('SELECT COUNT(*) as c FROM puzzles');
     return rows.first['c'] as int;
   }
 }

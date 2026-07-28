@@ -88,8 +88,9 @@ class BoardState {
   factory BoardState.fromFen(String fen) {
     final parts = fen.split(' ');
     final boardPart = parts[0];
-    final sideToMove =
-        parts.length > 1 && parts[1] == 'b' ? PieceColor.black : PieceColor.white;
+    final sideToMove = parts.length > 1 && parts[1] == 'b'
+        ? PieceColor.black
+        : PieceColor.white;
     final castling = parts.length > 2 ? parts[2] : 'KQkq';
     final epStr = parts.length > 3 ? parts[3] : '-';
     final halfMove = parts.length > 4 ? int.tryParse(parts[4]) ?? 0 : 0;
@@ -144,9 +145,9 @@ class BoardState {
     String newCastling = castlingRights;
     Square? newEp;
 
-    if (movingPiece.type == 'P' &&
-        to == enPassantSquare) {
-      final captureRank = movingPiece.color == PieceColor.white ? to.rank - 1 : to.rank + 1;
+    if (movingPiece.type == 'P' && to == enPassantSquare) {
+      final captureRank =
+          movingPiece.color == PieceColor.white ? to.rank - 1 : to.rank + 1;
       newBoard[captureRank][to.file] = null;
     }
 
@@ -178,22 +179,25 @@ class BoardState {
     }
 
     // Promotion
-    final finalPiece = (movingPiece.type == 'P' && (to.rank == 0 || to.rank == 7))
-        ? Piece(promotion ?? 'Q', movingPiece.color)
-        : movingPiece;
+    final finalPiece =
+        (movingPiece.type == 'P' && (to.rank == 0 || to.rank == 7))
+            ? Piece(promotion ?? 'Q', movingPiece.color)
+            : movingPiece;
 
     newBoard[to.rank][to.file] = finalPiece;
     newBoard[from.rank][from.file] = null;
 
-    final newHalf = (movingPiece.type == 'P' || newBoard[to.rank][to.file] != null)
-        ? 0
-        : halfMoveClock + 1;
+    final newHalf =
+        (movingPiece.type == 'P' || newBoard[to.rank][to.file] != null)
+            ? 0
+            : halfMoveClock + 1;
     final newFull =
         sideToMove == PieceColor.black ? fullMoveNumber + 1 : fullMoveNumber;
 
     return BoardState._(
       pieces: newBoard,
-      sideToMove: sideToMove == PieceColor.white ? PieceColor.black : PieceColor.white,
+      sideToMove:
+          sideToMove == PieceColor.white ? PieceColor.black : PieceColor.white,
       castlingRights: newCastling.isEmpty ? '-' : newCastling,
       enPassantSquare: newEp,
       halfMoveClock: newHalf,
