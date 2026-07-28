@@ -7,40 +7,66 @@ Chess Vision Pro Mobile is the Android + iOS companion app for the Chess Vision 
 
 ---
 
-## Planned Feature Set (Parity-Oriented)
+## Feature Set
 
-- Puzzle list/browse with metadata (rating, themes, source, FEN)
-- Interactive chessboard puzzle solving flow
-- Analysis screen/panel with pluggable engine provider
-- Local persistence for puzzle data and user progress
-- Resume last puzzle/session
-- Light + dark themes
-- Android + iOS support from single codebase
-- Update-ready architecture (app version check + puzzle pack versioning)
+- ✅ Puzzle list/browse with rating, themes, and difficulty label
+- ✅ Interactive chessboard puzzle solving (tap-to-move, FEN-based)
+- ✅ Analysis board with move history and undo
+- ✅ Local persistence via SQLite (puzzle progress tracking)
+- ✅ Resume-aware progress (solved count, attempts)
+- ✅ Light + dark + system themes
+- ✅ Auto-flip board for Black
+- ✅ 10 built-in sample puzzles (seeded on first launch)
+- ✅ Android + iOS support from single codebase
 
 ---
 
 ## Tech Stack
 
 - **Flutter** (cross-platform UI)
-- **Dart**
-- Local storage (SQLite/Isar/Hive; final choice depends on implementation phase)
-- Chess logic package (legal moves / board state)
-- Engine provider abstraction for future Stockfish/native integration
+- **Dart 3**
+- **provider** — state management
+- **go_router** — navigation
+- **sqflite** — SQLite local storage
+- **shared_preferences** — settings persistence
+
+---
+
+## App Architecture
+
+```text
+lib/
+  core/
+    theme/          ← AppTheme (light/dark + ChessBoardTheme extension)
+    routing/        ← go_router configuration
+    services/       ← DatabaseService (sqflite)
+  features/
+    home/           ← HomeScreen (dashboard + progress)
+    puzzles/
+      data/         ← PuzzleRepository, sample puzzle data
+      domain/       ← Puzzle, PuzzleProgress models
+      presentation/ ← PuzzleListScreen, PuzzleScreen, PuzzleProvider
+    analysis/       ← AnalysisScreen (free-play board)
+    settings/       ← SettingsScreen, SettingsProvider
+  shared/
+    chess_logic.dart            ← FEN parser, BoardState, Square, Piece
+    widgets/chess_board_widget  ← Reusable board UI
+```
+
+Principles:
+- Repository abstraction between UI and SQLite
+- ChangeNotifier-based providers for reactive UI
+- Offline-first: all data stored locally
 
 ---
 
 ## Prerequisites
 
-1. Flutter SDK installed
-2. Android Studio (Android toolchain)
-3. Xcode (for iOS builds, macOS only)
-4. Git
-
-Verify:
+1. Flutter SDK ≥ 3.22 (`flutter --version`)
+2. Android Studio (Android toolchain) or Xcode (iOS, macOS only)
+3. Git
 
 ```bash
-flutter --version
 flutter doctor
 ```
 
@@ -55,9 +81,17 @@ flutter pub get
 flutter run
 ```
 
+The app seeds 10 sample puzzles into SQLite on first launch.
+
 ---
 
 ## Build Commands
+
+### Android APK (debug)
+
+```bash
+flutter build apk --debug
+```
 
 ### Android APK (release)
 
@@ -65,16 +99,13 @@ flutter run
 flutter build apk --release
 ```
 
-Output (default):
-- `build/app/outputs/flutter-apk/app-release.apk`
-
 ### Android App Bundle (Play Store)
 
 ```bash
 flutter build appbundle --release
 ```
 
-### iOS Release Build
+### iOS (macOS only)
 
 ```bash
 flutter build ios --release
@@ -84,51 +115,25 @@ flutter build ios --release
 
 ---
 
-## Auto-Update Strategy
+## Tests
 
-### App Update
-- **Android:** in-app update flow (if enabled) or Play Store redirect fallback.
-- **iOS:** App Store version check and redirect.
-
-### Content Update (Puzzle Packs)
-- Maintain local content version metadata.
-- Check remote/latest version endpoint.
-- Download/import updated puzzle packs when newer versions are available.
-
----
-
-## Suggested Architecture
-
-```text
-lib/
-  core/
-    theme/
-    routing/
-    services/
-  features/
-    home/
-    puzzles/
-      data/
-      domain/
-      presentation/
-    analysis/
-    settings/
-  shared/
+```bash
+flutter test
 ```
 
-Principles:
-- Repository abstraction between UI and data source
-- Engine provider abstraction for future native integration
-- Offline-first behavior by default
+Tests cover:
+- `chess_logic_test.dart` — FEN parsing, move application, Square, Puzzle model
+- `widget_test.dart` — ChessBoardWidget rendering
 
 ---
 
 ## Accessibility Notes
 
 - Large, readable typography defaults
-- Sufficient touch target size
-- Semantic labels for actionable controls
+- Sufficient touch target size (44×44 dp minimum via Flutter defaults)
+- Semantic board labels (`a1`–`h8` overlaid on board)
 - Theme contrast tuned for board and analysis readability
+- System theme auto-mode supported
 
 ---
 
@@ -136,15 +141,9 @@ Principles:
 
 To produce distributable builds:
 
-- Android keystore configuration (`key.properties`, signing config)
+- Android keystore configuration (`key.properties`, signing config in `android/app/build.gradle`)
 - iOS signing setup in Xcode (Team, Bundle ID, Provisioning)
 - Store listing metadata (icons, screenshots, privacy policy)
-
----
-
-## Project Status
-
-This repository is configured as the mobile app target and documentation baseline. If you want, next step is full code scaffolding + feature implementation with CI workflows.
 
 ---
 
@@ -154,3 +153,4 @@ Desktop project concept and ecosystem:
 - https://github.com/akbartube51-a11y/chess-vision-pro
 
 Developed under the AIM Akbar Hossain / Agartala Chess Academy ecosystem.
+

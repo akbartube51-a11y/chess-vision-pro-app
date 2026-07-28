@@ -1,0 +1,35 @@
+name: chess_vision_pro
+description: Chess Vision Pro Mobile - Offline-first puzzle solving and engine-assisted analysis.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  provider: ^6.1.2
+
+  # Navigation
+  go_router: ^14.2.0
+
+  # Local storage
+  sqflite: ^2.3.3
+  path: ^1.9.0
+
+  # Preferences
+  shared_preferences: ^2.2.3
+
+  # Icons
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
