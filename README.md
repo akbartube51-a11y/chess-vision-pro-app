@@ -26,7 +26,7 @@ Chess Vision Pro Mobile is the Android + iOS companion app for the Chess Vision 
 
 ## 🚧 Remaining Task List
 
-- [ ] Integrate chess engine for stronger analysis and hints
+- [ ] Integrate **Stockfish 18** chess engine for stronger analysis and hints
 - [ ] Add online puzzle sync/import pipeline (optional cloud mode)
 - [ ] Expand puzzle dataset beyond seeded sample set
 - [ ] Add advanced training modes (timed drills, custom themes, streak tracking)
