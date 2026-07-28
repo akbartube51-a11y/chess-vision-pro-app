@@ -130,8 +130,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sideLabel =
-        _boardState.sideToMove == PieceColor.white ? 'White' : 'Black';
+    final sideLabel = _boardState.sideToMove == PieceColor.white
+        ? 'White'
+        : 'Black';
 
     return Scaffold(
       appBar: AppBar(

@@ -34,8 +34,7 @@ class StockfishChessEngineService implements ChessEngineService {
 
     Process process;
     try {
-      process =
-          await _processStarter(executable, const []).timeout(timeout);
+      process = await _processStarter(executable, const []).timeout(timeout);
     } on ProcessException catch (e) {
       throw ChessEngineException(
         ChessEngineErrorType.unavailable,
