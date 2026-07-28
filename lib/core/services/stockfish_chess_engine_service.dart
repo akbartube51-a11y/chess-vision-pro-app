@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'chess_engine_service.dart';
 
-typedef ProcessStarter =
-    Future<Process> Function(String executable, List<String> arguments);
+typedef ProcessStarter = Future<Process> Function(
+    String executable, List<String> arguments);
 
 class StockfishChessEngineService implements ChessEngineService {
   StockfishChessEngineService({
@@ -64,27 +64,27 @@ class StockfishChessEngineService implements ChessEngineService {
         .transform(utf8.decoder)
         .transform(const LineSplitter())
         .listen((line) {
-          if (line.startsWith('info ')) {
-            final pv = _parseIntAfterToken(line, 'multipv') ?? 1;
-            final pvMove = _parseFirstPvMove(line);
-            if (pvMove != null) {
-              bestByPv[pv] = pvMove;
-            }
-            if (pv == 1) {
-              evaluation = _parseScore(line) ?? evaluation;
-            }
-            return;
-          }
+      if (line.startsWith('info ')) {
+        final pv = _parseIntAfterToken(line, 'multipv') ?? 1;
+        final pvMove = _parseFirstPvMove(line);
+        if (pvMove != null) {
+          bestByPv[pv] = pvMove;
+        }
+        if (pv == 1) {
+          evaluation = _parseScore(line) ?? evaluation;
+        }
+        return;
+      }
 
-          if (!line.startsWith('bestmove ')) return;
-          final parts = line.split(' ');
-          if (parts.length >= 2 && parts[1] != '(none)') {
-            bestMove = parts[1];
-          }
-          if (!completer.isCompleted) {
-            completer.complete();
-          }
-        });
+      if (!line.startsWith('bestmove ')) return;
+      final parts = line.split(' ');
+      if (parts.length >= 2 && parts[1] != '(none)') {
+        bestMove = parts[1];
+      }
+      if (!completer.isCompleted) {
+        completer.complete();
+      }
+    });
 
     final stderrSub = process.stderr
         .transform(utf8.decoder)

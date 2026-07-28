@@ -106,9 +106,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         timeout: const Duration(seconds: 2),
       );
       if (!mounted) return;
-      final evalText = analysis.evaluation != null
-          ? ' (${analysis.evaluation!.label})'
-          : '';
+      final evalText =
+          analysis.evaluation != null ? ' (${analysis.evaluation!.label})' : '';
       setState(() {
         _analysisResult = 'Best move: ${analysis.bestMove}$evalText';
       });
@@ -130,9 +129,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sideLabel = _boardState.sideToMove == PieceColor.white
-        ? 'White'
-        : 'Black';
+    final sideLabel =
+        _boardState.sideToMove == PieceColor.white ? 'White' : 'Black';
 
     return Scaffold(
       appBar: AppBar(
