@@ -6,9 +6,8 @@ import 'package:chess_vision_pro/features/puzzles/data/lichess_puzzle_source.dar
 Future<void> main(List<String> args) async {
   final options = {
     for (final arg in args.where((value) => value.startsWith('--')))
-      arg.split('=').first.replaceFirst('--', ''): arg.contains('=')
-          ? arg.substring(arg.indexOf('=') + 1)
-          : 'true',
+      arg.split('=').first.replaceFirst('--', ''):
+          arg.contains('=') ? arg.substring(arg.indexOf('=') + 1) : 'true',
   };
   final outputPath = options['output'];
   final uri =

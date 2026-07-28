@@ -25,10 +25,10 @@ class PuzzleProvider extends ChangeNotifier {
     this.replyOpponentMoveDelay = const Duration(milliseconds: 600),
     this.engineTimeout = const Duration(seconds: 2),
     bool boardAutoFlipEnabled = true,
-  }) : _engineService = engineService,
-       _syncService = syncService,
-       _defaultSource = defaultSource,
-       _boardAutoFlipEnabled = boardAutoFlipEnabled;
+  })  : _engineService = engineService,
+        _syncService = syncService,
+        _defaultSource = defaultSource,
+        _boardAutoFlipEnabled = boardAutoFlipEnabled;
 
   final PuzzleRepository _repo;
   final ChessEngineService _engineService;
@@ -196,9 +196,8 @@ class PuzzleProvider extends ChangeNotifier {
 
   Future<void> configureTrainingMode(TrainingMode mode, {String? theme}) async {
     _trainingMode = mode;
-    _selectedTheme = mode == TrainingMode.theme
-        ? theme ?? _selectedTheme
-        : null;
+    _selectedTheme =
+        mode == TrainingMode.theme ? theme ?? _selectedTheme : null;
     if (mode == TrainingMode.timed) {
       _timedRoundStartedAt = DateTime.now();
     } else {
@@ -345,9 +344,8 @@ class PuzzleProvider extends ChangeNotifier {
 
     final expected = puzzle.moves[_moveIndex];
     final uciBase = uci.length >= 4 ? uci.substring(0, 4) : uci;
-    final expectedBase = expected.length >= 4
-        ? expected.substring(0, 4)
-        : expected;
+    final expectedBase =
+        expected.length >= 4 ? expected.substring(0, 4) : expected;
 
     if (uciBase == expectedBase) {
       _applyMove(expected);

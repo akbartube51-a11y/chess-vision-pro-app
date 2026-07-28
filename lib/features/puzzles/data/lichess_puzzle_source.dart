@@ -5,12 +5,11 @@ import 'puzzle_sync_models.dart';
 
 class LichessPuzzleSource extends PuzzleSource {
   LichessPuzzleSource({PuzzleNetworkClient? client, Uri? defaultUri})
-    : _client = client ?? const DefaultPuzzleNetworkClient(),
-      _defaultUri =
-          defaultUri ??
-          Uri.parse(
-            'https://raw.githubusercontent.com/akbartube51-a11y/chess-vision-pro-app/main/test/fixtures/lichess_export_sample.csv',
-          );
+      : _client = client ?? const DefaultPuzzleNetworkClient(),
+        _defaultUri = defaultUri ??
+            Uri.parse(
+              'https://raw.githubusercontent.com/akbartube51-a11y/chess-vision-pro-app/main/test/fixtures/lichess_export_sample.csv',
+            );
 
   final PuzzleNetworkClient _client;
   final Uri _defaultUri;
@@ -50,10 +49,9 @@ class LichessPuzzleSource extends PuzzleSource {
     final contentHash = response.etag;
     final datasetVersion = response.lastModified;
 
-    await for (final line
-        in response.bytes
-            .transform(utf8.decoder)
-            .transform(const LineSplitter())) {
+    await for (final line in response.bytes
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())) {
       if (line.trim().isEmpty) continue;
       if (processedRecords == 0 && line.startsWith('PuzzleId,')) {
         continue;
@@ -111,10 +109,10 @@ class LichessPuzzleSource extends PuzzleSource {
         .toList(growable: false);
     final openingTags = columns.length > 9
         ? columns[9]
-              .trim()
-              .split(RegExp(r'\s+'))
-              .where((item) => item.isNotEmpty)
-              .toList(growable: false)
+            .trim()
+            .split(RegExp(r'\s+'))
+            .where((item) => item.isNotEmpty)
+            .toList(growable: false)
         : const <String>[];
 
     if (externalId.isEmpty || fen.isEmpty || moves.isEmpty) return null;

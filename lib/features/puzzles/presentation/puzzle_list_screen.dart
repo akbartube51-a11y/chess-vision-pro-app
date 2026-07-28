@@ -109,22 +109,22 @@ class _PuzzleListScreenState extends State<PuzzleListScreen> {
             child: provider.loading && provider.puzzles.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : provider.puzzles.isEmpty
-                ? Center(child: Text(l10n.noPuzzlesAvailable))
-                : ListView.builder(
-                    controller: _scrollController,
-                    itemCount:
-                        provider.puzzles.length +
-                        (provider.loadingMore ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index >= provider.puzzles.length) {
-                        return const Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
-                      return _PuzzleListTile(puzzle: provider.puzzles[index]);
-                    },
-                  ),
+                    ? Center(child: Text(l10n.noPuzzlesAvailable))
+                    : ListView.builder(
+                        controller: _scrollController,
+                        itemCount: provider.puzzles.length +
+                            (provider.loadingMore ? 1 : 0),
+                        itemBuilder: (context, index) {
+                          if (index >= provider.puzzles.length) {
+                            return const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          return _PuzzleListTile(
+                              puzzle: provider.puzzles[index]);
+                        },
+                      ),
           ),
         ],
       ),

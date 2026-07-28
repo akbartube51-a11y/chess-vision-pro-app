@@ -65,8 +65,7 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                     await provider.requestHint();
                     if (!context.mounted) return;
                     final hint = provider.latestHint;
-                    final message =
-                        provider.hintError ??
+                    final message = provider.hintError ??
                         (hint == null
                             ? l10n.hintUnavailable
                             : l10n.hintMessage(
@@ -225,30 +224,30 @@ class _StatusBanner extends StatelessWidget {
     final l10n = context.l10n;
     final (label, color, icon) = switch (state) {
       PuzzleSolveState.idle => (
-        l10n.statusLoading,
-        Colors.grey,
-        Icons.hourglass_empty,
-      ),
+          l10n.statusLoading,
+          Colors.grey,
+          Icons.hourglass_empty,
+        ),
       PuzzleSolveState.playing => (
-        l10n.statusYourTurn,
-        Theme.of(context).colorScheme.primaryContainer,
-        Icons.lightbulb_outline,
-      ),
+          l10n.statusYourTurn,
+          Theme.of(context).colorScheme.primaryContainer,
+          Icons.lightbulb_outline,
+        ),
       PuzzleSolveState.correct => (
-        l10n.statusCorrect,
-        Colors.green.shade100,
-        Icons.check,
-      ),
+          l10n.statusCorrect,
+          Colors.green.shade100,
+          Icons.check,
+        ),
       PuzzleSolveState.wrong => (
-        l10n.statusWrong,
-        Colors.red.shade100,
-        Icons.close,
-      ),
+          l10n.statusWrong,
+          Colors.red.shade100,
+          Icons.close,
+        ),
       PuzzleSolveState.solved => (
-        l10n.statusSolved,
-        Colors.green.shade200,
-        Icons.star,
-      ),
+          l10n.statusSolved,
+          Colors.green.shade200,
+          Icons.star,
+        ),
     };
 
     return Semantics(

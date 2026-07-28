@@ -149,15 +149,15 @@ class _HeroHeader extends StatelessWidget {
           Text(
             '♔ ${l10n.appTitle}',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: colorScheme.onPrimaryContainer,
-            ),
+                  color: colorScheme.onPrimaryContainer,
+                ),
           ),
           const SizedBox(height: 8),
           Text(
             l10n.homeTagline,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onPrimaryContainer.withOpacity(0.8),
-            ),
+                  color: colorScheme.onPrimaryContainer.withOpacity(0.8),
+                ),
           ),
         ],
       ),

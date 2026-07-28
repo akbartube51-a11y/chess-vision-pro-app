@@ -107,9 +107,8 @@ class BoardState {
         if (num != null) {
           file += num;
         } else {
-          final color = ch == ch.toUpperCase()
-              ? PieceColor.white
-              : PieceColor.black;
+          final color =
+              ch == ch.toUpperCase() ? PieceColor.white : PieceColor.black;
           board[r][file] = Piece(ch.toUpperCase(), color);
           file++;
         }
@@ -144,9 +143,8 @@ class BoardState {
     Square? newEp;
 
     if (movingPiece.type == 'P' && to == enPassantSquare) {
-      final captureRank = movingPiece.color == PieceColor.white
-          ? to.rank - 1
-          : to.rank + 1;
+      final captureRank =
+          movingPiece.color == PieceColor.white ? to.rank - 1 : to.rank + 1;
       newBoard[captureRank][to.file] = null;
     }
 
@@ -180,25 +178,23 @@ class BoardState {
     // Promotion
     final finalPiece =
         (movingPiece.type == 'P' && (to.rank == 0 || to.rank == 7))
-        ? Piece(promotion ?? 'Q', movingPiece.color)
-        : movingPiece;
+            ? Piece(promotion ?? 'Q', movingPiece.color)
+            : movingPiece;
 
     newBoard[to.rank][to.file] = finalPiece;
     newBoard[from.rank][from.file] = null;
 
     final newHalf =
         (movingPiece.type == 'P' || newBoard[to.rank][to.file] != null)
-        ? 0
-        : halfMoveClock + 1;
-    final newFull = sideToMove == PieceColor.black
-        ? fullMoveNumber + 1
-        : fullMoveNumber;
+            ? 0
+            : halfMoveClock + 1;
+    final newFull =
+        sideToMove == PieceColor.black ? fullMoveNumber + 1 : fullMoveNumber;
 
     return BoardState._(
       pieces: newBoard,
-      sideToMove: sideToMove == PieceColor.white
-          ? PieceColor.black
-          : PieceColor.white,
+      sideToMove:
+          sideToMove == PieceColor.white ? PieceColor.black : PieceColor.white,
       castlingRights: newCastling.isEmpty ? '-' : newCastling,
       enPassantSquare: newEp,
       halfMoveClock: newHalf,

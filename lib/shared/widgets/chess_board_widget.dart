@@ -119,23 +119,20 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 8,
-                            ),
+                          crossAxisCount: 8,
+                        ),
                         itemCount: 64,
                         itemBuilder: (context, index) {
                           final displayRank = index ~/ 8;
                           final displayFile = index % 8;
-                          final rank = widget.flipped
-                              ? displayRank
-                              : 7 - displayRank;
-                          final file = widget.flipped
-                              ? 7 - displayFile
-                              : displayFile;
+                          final rank =
+                              widget.flipped ? displayRank : 7 - displayRank;
+                          final file =
+                              widget.flipped ? 7 - displayFile : displayFile;
                           final square = Square(file, rank);
                           final isLight = (file + rank) % 2 != 0;
                           final isSelected = square == widget.selectedSquare;
-                          final isLastMove =
-                              square == widget.lastMoveFrom ||
+                          final isLastMove = square == widget.lastMoveFrom ||
                               square == widget.lastMoveTo;
                           final isFocused = square == _focusedSquare;
                           final piece = widget.boardState.pieceAtIndex(
@@ -146,10 +143,10 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
                           final squareColor = isSelected
                               ? boardTheme.highlight
                               : isLastMove
-                              ? boardTheme.lastMoveHighlight
-                              : isLight
-                              ? boardTheme.lightSquare
-                              : boardTheme.darkSquare;
+                                  ? boardTheme.lastMoveHighlight
+                                  : isLight
+                                      ? boardTheme.lightSquare
+                                      : boardTheme.darkSquare;
 
                           return Semantics(
                             button: true,
@@ -214,9 +211,8 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
       return SizedBox(
         width: squareSize,
         child: Align(
-          alignment: outsideCoordinates
-              ? Alignment.center
-              : Alignment.bottomRight,
+          alignment:
+              outsideCoordinates ? Alignment.center : Alignment.bottomRight,
           child: Padding(
             padding: EdgeInsets.only(
               right: outsideCoordinates ? 0 : 2,
@@ -225,11 +221,11 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
             child: Text(
               String.fromCharCode('a'.codeUnitAt(0) + file),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(
-                  context,
-                ).extension<ChessBoardTheme>()!.borderColor,
-              ),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(
+                      context,
+                    ).extension<ChessBoardTheme>()!.borderColor,
+                  ),
             ),
           ),
         ),
@@ -266,11 +262,11 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
             child: Text(
               '${rank + 1}',
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Theme.of(
-                  context,
-                ).extension<ChessBoardTheme>()!.borderColor,
-              ),
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(
+                      context,
+                    ).extension<ChessBoardTheme>()!.borderColor,
+                  ),
             ),
           ),
         ),
@@ -324,9 +320,8 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
             piece.type,
             style: TextStyle(
               fontWeight: FontWeight.w800,
-              color: piece.color == PieceColor.white
-                  ? Colors.black
-                  : Colors.white,
+              color:
+                  piece.color == PieceColor.white ? Colors.black : Colors.white,
               fontSize: squareSize * 0.32,
             ),
           ),
@@ -340,9 +335,8 @@ class _ChessBoardWidgetState extends State<ChessBoardWidget> {
     final fillColor = piece.color == PieceColor.white
         ? Colors.white
         : const Color(0xFF111827);
-    final strokeColor = piece.color == PieceColor.white
-        ? Colors.black87
-        : Colors.white70;
+    final strokeColor =
+        piece.color == PieceColor.white ? Colors.black87 : Colors.white70;
 
     if (widget.pieceStyle == PieceSetStyle.neo) {
       return Center(
