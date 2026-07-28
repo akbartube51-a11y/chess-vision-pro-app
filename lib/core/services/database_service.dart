@@ -8,8 +8,12 @@ class DatabaseService {
     final dbPath = await getDatabasesPath();
     _db = await openDatabase(
       join(dbPath, 'chess_vision_pro.db'),
-      version: 1,
+      version: 2,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+      onOpen: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
     );
   }
 
@@ -47,6 +51,46 @@ class DatabaseService {
       CREATE TABLE app_settings (
         key TEXT PRIMARY KEY,
         value TEXT NOT NULL
+      )
+    ''');
+
+    await _createIndexes(db);
+    await _createSyncStateTable(db);
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await _createIndexes(db);
+      await _createSyncStateTable(db);
+    }
+  }
+
+  Future<void> _createIndexes(Database db) async {
+    await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_puzzles_rating ON puzzles (rating)',
+    );
+    await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_puzzles_source ON puzzles (source)',
+    );
+    await db.execute(
+      'CREATE UNIQUE INDEX IF NOT EXISTS idx_puzzles_source_external ON puzzles (source, external_id)',
+    );
+    await db.execute(
+      'CREATE INDEX IF NOT EXISTS idx_puzzle_progress_lookup ON puzzle_progress (puzzle_id, solved, attempts)',
+    );
+  }
+
+  Future<void> _createSyncStateTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS puzzle_sync_state (
+        source_id TEXT PRIMARY KEY,
+        last_synced_at TEXT,
+        cursor TEXT,
+        dataset_version TEXT,
+        content_hash TEXT,
+        imported_count INTEGER NOT NULL DEFAULT 0,
+        attribution TEXT NOT NULL DEFAULT '',
+        last_error TEXT
       )
     ''');
   }

@@ -1,0 +1,182 @@
+{
+  "@@locale": "es",
+  "appTitle": "Chess Vision Pro",
+  "homeTitle": "Chess Vision Pro",
+  "homeTagline": "Mejora tu táctica. Resuelve problemas. Domina el tablero.",
+  "quickAccess": "Accesos rápidos",
+  "yourProgress": "Tu progreso",
+  "solvedProgress": "{solved} / {total} resueltos",
+  "@solvedProgress": {
+    "placeholders": {
+      "solved": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "puzzles": "Problemas",
+  "puzzlesAvailable": "{count} problemas disponibles",
+  "@puzzlesAvailable": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "analysis": "Análisis",
+  "analysisSubtitle": "Explora posiciones",
+  "privacy": "Privacidad",
+  "privacySubtitle": "Aprende qué guarda y solicita la sincronización",
+  "settings": "Ajustes",
+  "noPuzzlesAvailable": "No hay problemas disponibles.",
+  "tacticsPuzzle": "Problema táctico",
+  "difficultyBeginner": "Principiante",
+  "difficultyIntermediate": "Intermedio",
+  "difficultyAdvanced": "Avanzado",
+  "difficultyExpert": "Experto",
+  "trainingModes": "Modos de entrenamiento",
+  "trainingModeClassic": "Clásico",
+  "trainingModeTimed": "Tiempo",
+  "trainingModeStreak": "Racha",
+  "trainingModeTheme": "Tema",
+  "trainingModeReview": "Repaso",
+  "timedSession": "Sesión cronometrada",
+  "remainingSeconds": "Quedan {seconds}s",
+  "@remainingSeconds": {
+    "placeholders": {
+      "seconds": {"type": "int"}
+    }
+  },
+  "currentStreak": "Racha actual: {count}",
+  "@currentStreak": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "themeFilter": "Filtro por tema",
+  "syncReady": "Sincronización en línea lista",
+  "syncLastRun": "Última sincronización: {value}",
+  "@syncLastRun": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "syncImported": "Se importaron {imported} problemas desde {source}.",
+  "@syncImported": {
+    "placeholders": {
+      "imported": {"type": "int"},
+      "source": {}
+    }
+  },
+  "syncUnavailable": "Agrega una URL de origen en Ajustes para sincronizar una exportación CSV remota.",
+  "syncFailed": "La sincronización falló. Revisa la URL o inténtalo más tarde.",
+  "puzzleTitle": "Problema",
+  "puzzleNumberTitle": "Problema #{id} · {rating}",
+  "@puzzleNumberTitle": {
+    "placeholders": {
+      "id": {"type": "int"},
+      "rating": {"type": "int"}
+    }
+  },
+  "getHint": "Pedir pista",
+  "flipBoard": "Girar tablero",
+  "resetPuzzle": "Reiniciar problema",
+  "nextPuzzle": "Siguiente problema",
+  "statusLoading": "Cargando...",
+  "statusYourTurn": "¡Tu turno!",
+  "statusCorrect": "¡Correcto! Sigue así...",
+  "statusWrong": "Movimiento incorrecto: inténtalo otra vez.",
+  "statusSolved": "¡Problema resuelto!",
+  "hintUnavailable": "No hay pista disponible ahora mismo.",
+  "hintMessage": "Pista: {move}{evaluation}",
+  "@hintMessage": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {}
+    }
+  },
+  "hintEvalSuffix": " ({value})",
+  "@hintEvalSuffix": {
+    "placeholders": {
+      "value": {}
+    }
+  },
+  "hintBanner": "Pista {move} · Eval {evaluation} · Mejores: {candidates}",
+  "@hintBanner": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {},
+      "candidates": {}
+    }
+  },
+  "themes": "Temas",
+  "analysisBoard": "Tablero de análisis",
+  "undo": "Deshacer",
+  "reset": "Reiniciar",
+  "quickAnalysis": "Análisis rápido",
+  "whiteToMove": "Juegan blancas",
+  "blackToMove": "Juegan negras",
+  "bestMoveResult": "Mejor jugada: {move}{evaluation}",
+  "@bestMoveResult": {
+    "placeholders": {
+      "move": {},
+      "evaluation": {}
+    }
+  },
+  "couldNotAnalyze": "No se pudo analizar esta posición ahora mismo.",
+  "moveHistoryEmpty": "Toca piezas para mover. El historial aparecerá aquí.",
+  "appearance": "Apariencia",
+  "board": "Tablero",
+  "accessibility": "Accesibilidad",
+  "dataAndSync": "Datos y sincronización",
+  "about": "Acerca de",
+  "theme": "Tema",
+  "light": "Claro",
+  "dark": "Oscuro",
+  "auto": "Auto",
+  "autoFlipBoard": "Girar automáticamente para negras",
+  "autoFlipBoardSubtitle": "El tablero muestra la perspectiva del jugador automáticamente",
+  "boardTheme": "Tema del tablero",
+  "pieceStyle": "Estilo de piezas",
+  "coordinates": "Coordenadas",
+  "boardThemeTournament": "Torneo",
+  "boardThemeForest": "Bosque",
+  "boardThemeMidnight": "Medianoche",
+  "pieceStyleClassic": "Figuras clásicas",
+  "pieceStyleNeo": "Contorno moderno",
+  "pieceStyleInitials": "Iniciales",
+  "coordinatesInside": "Dentro del tablero",
+  "coordinatesOutside": "Fuera del tablero",
+  "coordinatesHidden": "Ocultas",
+  "voiceGuidance": "Guía por voz",
+  "voiceGuidanceSubtitle": "Anuncia el tablero y la respuesta del problema mediante servicios de accesibilidad",
+  "voiceVerbosity": "Nivel de detalle de voz",
+  "voiceVerbosityConcise": "Breve",
+  "voiceVerbosityDetailed": "Detallada",
+  "language": "Idioma",
+  "languageSystem": "Predeterminado del sistema",
+  "privacyAndPermissions": "Privacidad y permisos",
+  "privacyAndPermissionsSubtitle": "Revisa qué solicitudes de red se realizan y cómo se guardan los datos",
+  "onlinePuzzleSync": "Sincronización de problemas en línea",
+  "sourceUrl": "URL del origen",
+  "sourceUrlHelper": "Usa un enlace CSV directo o un espejo compatible con Lichess ya descomprimido.",
+  "editSourceUrl": "Editar URL del origen",
+  "clear": "Borrar",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "syncNow": "Sincronizar ahora",
+  "syncInProgress": "Sincronizando datos de problemas...",
+  "syncSourceNotice": "Importa solo conjuntos de datos con licencias abiertas como CC0 o CC BY.",
+  "privacyScreenTitle": "Privacidad y permisos",
+  "privacySummary": "Chess Vision Pro guarda los problemas localmente, registra el progreso en el dispositivo y solo contacta orígenes remotos que tú configuras.",
+  "privacyNetworkHeading": "Solicitudes externas",
+  "privacyNetworkBody": "Cuando la sincronización en línea está activada, la app descarga datos CSV de problemas desde la URL configurada. No se incluyen analíticas ni anuncios en la canalización de sincronización.",
+  "privacyStorageHeading": "Guardado local",
+  "privacyStorageBody": "La app guarda problemas, metadatos de sincronización, ajustes de tema, idioma y progreso en SQLite y Shared Preferences locales.",
+  "privacyPermissionsHeading": "Permisos",
+  "privacyPermissionsBody": "No se requieren permisos especiales en los flujos actuales de escritorio/móvil. Las futuras versiones de escritorio firmadas podrían añadir avisos específicos para importar archivos o usar servicios de voz.",
+  "privacyLicenseHeading": "Requisitos del origen",
+  "privacyLicenseBody": "Importa solo datos de problemas con licencias abiertas. El feed de muestra incluido refleja registros públicos compatibles con CC0 y guarda metadatos de atribución junto al estado de sincronización.",
+  "privacyDocsLink": "Consulta README y docs/privacy_and_permissions.md para la guía de contribuidores.",
+  "openSource": "Código abierto",
+  "openSourceSubtitle": "github.com/akbartube51-a11y/chess-vision-pro-app",
+  "boardFocusHelp": "Usa las flechas para mover el foco y pulsa Enter o Espacio para jugar un movimiento.",
+  "timedExpired": "El tiempo de esta ronda terminó.",
+  "sourceNotConfigured": "No hay URL configurada. Se usará la URL de muestra incluida cuando esté disponible."
+}

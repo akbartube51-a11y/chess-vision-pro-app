@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/accessibility/voice_guidance_service.dart';
+import '../../../core/localization/localization_extensions.dart';
 import '../../../core/services/chess_engine_service.dart';
-import 'providers/puzzle_provider.dart';
-import '../domain/puzzle.dart';
 import '../../../shared/widgets/chess_board_widget.dart';
+import '../../settings/providers/settings_provider.dart';
+import '../domain/puzzle.dart';
+import '../domain/training_mode.dart';
+import 'providers/puzzle_provider.dart';
 
 class PuzzleScreen extends StatefulWidget {
   const PuzzleScreen({super.key, required this.puzzleId});
@@ -17,6 +21,9 @@ class PuzzleScreen extends StatefulWidget {
 }
 
 class _PuzzleScreenState extends State<PuzzleScreen> {
+  final VoiceGuidanceService _voiceGuidanceService = const VoiceGuidanceService();
+  String? _lastAnnouncementKey;
+
   @override
   void initState() {
     super.initState();
@@ -28,15 +35,19 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<PuzzleProvider>();
+    final settings = context.watch<SettingsProvider>();
     final puzzle = provider.currentPuzzle;
     final board = provider.boardState;
+    final l10n = context.l10n;
+
+    _announceStatusIfNeeded(context, provider, settings);
 
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(onPressed: () => context.go('/puzzles')),
         title: puzzle == null
-            ? const Text('Puzzle')
-            : Text('Puzzle #${puzzle.id}  ·  ${puzzle.rating}'),
+            ? Text(l10n.puzzleTitle)
+            : Text(l10n.puzzleNumberTitle(puzzle.id, puzzle.rating)),
         actions: [
           IconButton(
             icon: provider.hintLoading
@@ -45,7 +56,7 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.tips_and_updates_outlined),
-            tooltip: 'Get hint',
+            tooltip: l10n.getHint,
             onPressed: provider.hintLoading
                 ? null
                 : () async {
@@ -55,9 +66,22 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                     final hint = provider.latestHint;
                     final message = provider.hintError ??
                         (hint == null
-                            ? 'No hint available right now.'
-                            : 'Hint: ${hint.bestMove}'
-                                '${hint.evaluation != null ? ' (${hint.evaluation!.label})' : ''}');
+                            ? l10n.hintUnavailable
+                            : l10n.hintMessage(
+                                hint.bestMove,
+                                hint.evaluation == null
+                                    ? ''
+                                    : l10n.hintEvalSuffix(hint.evaluation!.label),
+                              ));
+                    await _voiceGuidanceService.announce(
+                      context,
+                      _voiceGuidanceService.withVerbosity(
+                        headline: message,
+                        details: provider.latestHint?.candidateMoves.join(', '),
+                        verbosity: settings.voiceGuidanceVerbosity,
+                      ),
+                      enabled: settings.voiceGuidanceEnabled,
+                    );
                     messenger
                       ..hideCurrentSnackBar()
                       ..showSnackBar(SnackBar(content: Text(message)));
@@ -65,12 +89,12 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
           ),
           IconButton(
             icon: const Icon(Icons.flip),
-            tooltip: 'Flip board',
+            tooltip: l10n.flipBoard,
             onPressed: provider.flipBoard,
           ),
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: 'Reset puzzle',
+            tooltip: l10n.resetPuzzle,
             onPressed: provider.resetPuzzle,
           ),
         ],
@@ -80,6 +104,20 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
           : Column(
               children: [
                 _StatusBanner(state: provider.solveState),
+                if (provider.trainingMode == TrainingMode.timed)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Text(
+                      provider.timedOut
+                          ? l10n.timedExpired
+                          : l10n.remainingSeconds(provider.timedSecondsRemaining),
+                    ),
+                  ),
+                if (provider.trainingMode == TrainingMode.streak)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: Text(l10n.currentStreak(provider.streakCount)),
+                  ),
                 if (provider.latestHint != null)
                   _HintBanner(analysis: provider.latestHint!),
                 Expanded(
@@ -93,6 +131,10 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                         lastMoveTo: provider.lastMoveTo,
                         onSquareTap: provider.onSquareTap,
                         flipped: provider.flipped,
+                        pieceStyle: settings.pieceSetStyle,
+                        coordinateStyle: settings.coordinateStyle,
+                        boardLabel: l10n.puzzleTitle,
+                        keyboardHelpText: l10n.boardFocusHelp,
                       ),
                     ),
                   ),
@@ -103,13 +145,42 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                     padding: const EdgeInsets.all(16),
                     child: ElevatedButton.icon(
                       icon: const Icon(Icons.arrow_forward),
-                      label: const Text('Next Puzzle'),
+                      label: Text(l10n.nextPuzzle),
                       onPressed: () => context.go('/puzzles'),
                     ),
                   ),
               ],
             ),
     );
+  }
+
+  void _announceStatusIfNeeded(
+    BuildContext context,
+    PuzzleProvider provider,
+    SettingsProvider settings,
+  ) {
+    final key = '${provider.currentPuzzle?.id}-${provider.solveState.name}';
+    if (_lastAnnouncementKey == key) return;
+    _lastAnnouncementKey = key;
+    final message = switch (provider.solveState) {
+      PuzzleSolveState.idle => context.l10n.statusLoading,
+      PuzzleSolveState.playing => context.l10n.statusYourTurn,
+      PuzzleSolveState.correct => context.l10n.statusCorrect,
+      PuzzleSolveState.wrong => context.l10n.statusWrong,
+      PuzzleSolveState.solved => context.l10n.statusSolved,
+    };
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _voiceGuidanceService.announce(
+        context,
+        _voiceGuidanceService.withVerbosity(
+          headline: message,
+          details: provider.currentPuzzle?.themes.join(', '),
+          verbosity: settings.voiceGuidanceVerbosity,
+        ),
+        enabled: settings.voiceGuidanceEnabled,
+      );
+    });
   }
 }
 
@@ -120,17 +191,19 @@ class _HintBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final candidates = analysis.candidateMoves.take(3).join(' · ');
-    final evalText = analysis.evaluation != null
-        ? 'Eval ${analysis.evaluation!.label}'
-        : 'Eval N/A';
-    return Container(
-      width: double.infinity,
-      color: Theme.of(context).colorScheme.secondaryContainer,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Text(
-        'Hint ${analysis.bestMove}  ·  $evalText  ·  Top: $candidates',
-        style: const TextStyle(fontWeight: FontWeight.w600),
+    final evalText = analysis.evaluation?.label ?? 'N/A';
+    return Semantics(
+      liveRegion: true,
+      child: Container(
+        width: double.infinity,
+        color: Theme.of(context).colorScheme.secondaryContainer,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Text(
+          l10n.hintBanner(analysis.bestMove, evalText, candidates),
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
     );
   }
@@ -143,47 +216,47 @@ class _StatusBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     final (label, color, icon) = switch (state) {
-      PuzzleSolveState.idle => (
-          'Loading...',
-          Colors.grey,
-          Icons.hourglass_empty
-        ),
+      PuzzleSolveState.idle => (l10n.statusLoading, Colors.grey, Icons.hourglass_empty),
       PuzzleSolveState.playing => (
-          'Your turn!',
+          l10n.statusYourTurn,
           Theme.of(context).colorScheme.primaryContainer,
-          Icons.lightbulb_outline
+          Icons.lightbulb_outline,
         ),
       PuzzleSolveState.correct => (
-          'Correct! Keep going...',
+          l10n.statusCorrect,
           Colors.green.shade100,
-          Icons.check
+          Icons.check,
         ),
       PuzzleSolveState.wrong => (
-          'Wrong move — try again!',
+          l10n.statusWrong,
           Colors.red.shade100,
-          Icons.close
+          Icons.close,
         ),
       PuzzleSolveState.solved => (
-          'Puzzle solved! 🎉',
+          l10n.statusSolved,
           Colors.green.shade200,
-          Icons.star
+          Icons.star,
         ),
     };
 
-    return Container(
-      width: double.infinity,
-      color: color,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Row(
-        children: [
-          Icon(icon, size: 20),
-          const SizedBox(width: 8),
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
-          ),
-        ],
+    return Semantics(
+      liveRegion: true,
+      child: Container(
+        width: double.infinity,
+        color: color,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          children: [
+            Icon(icon, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -196,6 +269,7 @@ class _PuzzleInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: Padding(
@@ -203,10 +277,7 @@ class _PuzzleInfoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Themes',
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
+            Text(l10n.themes, style: Theme.of(context).textTheme.labelLarge),
             const SizedBox(height: 4),
             Wrap(
               spacing: 6,
@@ -217,7 +288,7 @@ class _PuzzleInfoCard extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     visualDensity: VisualDensity.compact,
                   ),
-                if (puzzle.themes.isEmpty) const Chip(label: Text('tactics')),
+                if (puzzle.themes.isEmpty) Chip(label: Text(l10n.tacticsPuzzle)),
               ],
             ),
           ],

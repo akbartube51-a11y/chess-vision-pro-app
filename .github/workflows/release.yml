@@ -1,0 +1,78 @@
+name: Desktop Release Scaffold
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  desktop-build:
+    name: Build ${{ matrix.platform }} artifact
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux
+            runner: ubuntu-latest
+            artifact: linux-build
+          - platform: windows
+            runner: windows-latest
+            artifact: windows-build
+          - platform: macos
+            runner: macos-latest
+            artifact: macos-build
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect platform scaffold
+        id: detect
+        shell: bash
+        run: |
+          if [ -d "${{ matrix.platform }}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Flutter
+        if: steps.detect.outputs.enabled == 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        if: steps.detect.outputs.enabled == 'true'
+        run: flutter pub get
+
+      - name: Build desktop artifact
+        if: steps.detect.outputs.enabled == 'true'
+        run: flutter build ${{ matrix.platform }} --release
+
+      - name: Upload desktop artifact
+        if: steps.detect.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: build/${{ matrix.platform }}
+          retention-days: 14
+
+      - name: Signing prerequisites
+        if: steps.detect.outputs.enabled == 'true'
+        shell: bash
+        run: |
+          echo "Configure signing secrets before enabling notarization or installer signing."
+          echo "Recommended secrets: MACOS_CERTIFICATE, MACOS_CERTIFICATE_PASSWORD, WINDOWS_PFX_BASE64, WINDOWS_PFX_PASSWORD."
+
+      - name: Skip missing platform scaffold
+        if: steps.detect.outputs.enabled != 'true'
+        shell: bash
+        run: |
+          echo "Skipping ${{ matrix.platform }} build because the repository does not yet include the generated desktop platform folder."
