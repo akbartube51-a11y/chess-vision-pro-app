@@ -4,6 +4,7 @@
 
 ```bash
 flutter pub get
+flutter gen-l10n
 flutter test
 flutter analyze --fatal-infos
 ```

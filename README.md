@@ -55,6 +55,7 @@ The default sample URL points at the repository fixture for safe development/tes
 git clone https://github.com/akbartube51-a11y/chess-vision-pro-app.git
 cd chess-vision-pro-app
 flutter pub get
+flutter gen-l10n
 flutter run
 ```
 
@@ -80,6 +81,7 @@ Optional flags:
 ## Testing and validation
 
 ```bash
+flutter gen-l10n
 flutter test
 flutter analyze --fatal-infos
 dart format --output=none --set-exit-if-changed .
