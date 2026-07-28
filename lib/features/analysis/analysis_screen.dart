@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../../../shared/chess_logic.dart';
-import '../../../shared/widgets/chess_board_widget.dart';
+import '../../core/services/chess_engine_service.dart';
+import '../../shared/chess_logic.dart';
+import '../../shared/widgets/chess_board_widget.dart';
 
 class AnalysisScreen extends StatefulWidget {
   const AnalysisScreen({super.key});
@@ -23,6 +25,8 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
 
   final List<BoardState> _history = [];
   final List<String> _moveHistory = [];
+  bool _analysisLoading = false;
+  String? _analysisResult;
 
   @override
   void initState() {
@@ -82,7 +86,46 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       _selectedSquare = null;
       _lastMoveFrom = null;
       _lastMoveTo = null;
+      _analysisResult = null;
     });
+  }
+
+  Future<void> _runQuickAnalysis() async {
+    if (_analysisLoading) return;
+    setState(() {
+      _analysisLoading = true;
+      _analysisResult = null;
+    });
+
+    try {
+      final service = context.read<ChessEngineService>();
+      final analysis = await service.analyzePosition(
+        fen: _startFen,
+        moves: _moveHistory,
+        multipv: 3,
+        timeout: const Duration(seconds: 2),
+      );
+      if (!mounted) return;
+      final evalText =
+          analysis.evaluation != null ? ' (${analysis.evaluation!.label})' : '';
+      setState(() {
+        _analysisResult = 'Best move: ${analysis.bestMove}$evalText';
+      });
+    } on ChessEngineException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _analysisResult = e.userMessage;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _analysisResult = 'Could not analyze this position right now.';
+      });
+    } finally {
+      if (mounted) {
+        setState(() => _analysisLoading = false);
+      }
+    }
   }
 
   @override
@@ -109,6 +152,16 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
             icon: const Icon(Icons.restart_alt),
             tooltip: 'Reset',
             onPressed: _resetBoard,
+          ),
+          IconButton(
+            icon: _analysisLoading
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.analytics_outlined),
+            tooltip: 'Quick analysis',
+            onPressed: _analysisLoading ? null : _runQuickAnalysis,
           ),
         ],
       ),
@@ -138,6 +191,16 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
               ),
             ),
           ),
+          if (_analysisResult != null)
+            Container(
+              width: double.infinity,
+              color: Theme.of(context).colorScheme.secondaryContainer,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                _analysisResult!,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
           _MoveHistoryPanel(moves: _moveHistory),
         ],
       ),

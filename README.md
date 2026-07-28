@@ -26,7 +26,7 @@ Chess Vision Pro Mobile is the Android + iOS companion app for the Chess Vision 
 
 ## 🚧 Remaining Task List
 
-- [ ] Integrate **Stockfish 18** chess engine for stronger analysis and hints
+- [x] Integrate **Stockfish 18** chess engine for stronger analysis and hints
 - [ ] Add online puzzle sync/import pipeline (optional cloud mode)
 - [ ] Expand puzzle dataset beyond seeded sample set
 - [ ] Add advanced training modes (timed drills, custom themes, streak tracking)
@@ -76,6 +76,14 @@ Principles:
 - Repository abstraction between UI and SQLite
 - ChangeNotifier-based providers for reactive UI
 - Offline-first: all data stored locally
+
+### Engine integration details
+- Added `ChessEngineService` abstraction for best-move + MultiPV + evaluation output.
+- Added `StockfishChessEngineService` (UCI process adapter) with timeout/error handling.
+- Puzzle screen now has a hint action backed by engine analysis.
+- Analysis board now has a quick analysis action backed by engine analysis.
+- If Stockfish is unavailable, the app shows a friendly message and continues without crashing.
+- Configure engine executable path with `--dart-define=STOCKFISH_EXECUTABLE=/path/to/stockfish` when needed.
 
 ---
 

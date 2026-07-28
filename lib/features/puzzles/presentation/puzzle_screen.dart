@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/services/chess_engine_service.dart';
 import 'providers/puzzle_provider.dart';
 import '../domain/puzzle.dart';
 import '../../../shared/widgets/chess_board_widget.dart';
@@ -38,6 +39,31 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
             : Text('Puzzle #${puzzle.id}  ·  ${puzzle.rating}'),
         actions: [
           IconButton(
+            icon: provider.hintLoading
+                ? const SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.tips_and_updates_outlined),
+            tooltip: 'Get hint',
+            onPressed: provider.hintLoading
+                ? null
+                : () async {
+                    final messenger = ScaffoldMessenger.of(context);
+                    await provider.requestHint();
+                    if (!context.mounted) return;
+                    final hint = provider.latestHint;
+                    final message = provider.hintError ??
+                        (hint == null
+                            ? 'No hint available right now.'
+                            : 'Hint: ${hint.bestMove}'
+                                '${hint.evaluation != null ? ' (${hint.evaluation!.label})' : ''}');
+                    messenger
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(SnackBar(content: Text(message)));
+                  },
+          ),
+          IconButton(
             icon: const Icon(Icons.flip),
             tooltip: 'Flip board',
             onPressed: provider.flipBoard,
@@ -54,6 +80,8 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
           : Column(
               children: [
                 _StatusBanner(state: provider.solveState),
+                if (provider.latestHint != null)
+                  _HintBanner(analysis: provider.latestHint!),
                 Expanded(
                   child: Center(
                     child: Padding(
@@ -81,6 +109,29 @@ class _PuzzleScreenState extends State<PuzzleScreen> {
                   ),
               ],
             ),
+    );
+  }
+}
+
+class _HintBanner extends StatelessWidget {
+  const _HintBanner({required this.analysis});
+
+  final ChessEngineAnalysis analysis;
+
+  @override
+  Widget build(BuildContext context) {
+    final candidates = analysis.candidateMoves.take(3).join(' · ');
+    final evalText = analysis.evaluation != null
+        ? 'Eval ${analysis.evaluation!.label}'
+        : 'Eval N/A';
+    return Container(
+      width: double.infinity,
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Text(
+        'Hint ${analysis.bestMove}  ·  $evalText  ·  Top: $candidates',
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
     );
   }
 }

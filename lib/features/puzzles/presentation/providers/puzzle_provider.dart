@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/services/chess_engine_service.dart';
 import '../../data/puzzle_repository.dart';
 import '../../domain/puzzle.dart';
 import '../../domain/puzzle_progress.dart';
@@ -10,9 +11,19 @@ import '../../../../shared/chess_logic.dart';
 enum PuzzleSolveState { idle, playing, correct, wrong, solved }
 
 class PuzzleProvider extends ChangeNotifier {
-  PuzzleProvider(this._repo);
+  PuzzleProvider(
+    this._repo, {
+    required ChessEngineService engineService,
+    this.loadOpponentMoveDelay = const Duration(milliseconds: 500),
+    this.replyOpponentMoveDelay = const Duration(milliseconds: 600),
+    this.engineTimeout = const Duration(seconds: 2),
+  }) : _engineService = engineService;
 
   final PuzzleRepository _repo;
+  final ChessEngineService _engineService;
+  final Duration loadOpponentMoveDelay;
+  final Duration replyOpponentMoveDelay;
+  final Duration engineTimeout;
 
   List<Puzzle> _puzzles = [];
   List<Puzzle> get puzzles => _puzzles;
@@ -51,6 +62,15 @@ class PuzzleProvider extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
+  bool _hintLoading = false;
+  bool get hintLoading => _hintLoading;
+
+  ChessEngineAnalysis? _latestHint;
+  ChessEngineAnalysis? get latestHint => _latestHint;
+
+  String? _hintError;
+  String? get hintError => _hintError;
+
   Future<void> loadPuzzles() async {
     _loading = true;
     notifyListeners();
@@ -78,6 +98,9 @@ class PuzzleProvider extends ChangeNotifier {
     _lastMoveFrom = null;
     _lastMoveTo = null;
     _moveIndex = 0;
+    _latestHint = null;
+    _hintError = null;
+    _hintLoading = false;
 
     // Determine if board should be flipped
     _flipped = _boardState!.sideToMove == PieceColor.black;
@@ -86,7 +109,7 @@ class PuzzleProvider extends ChangeNotifier {
     notifyListeners();
 
     // Auto-play opponent's first move after short delay
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(loadOpponentMoveDelay);
     _playOpponentMove();
   }
 
@@ -166,7 +189,7 @@ class PuzzleProvider extends ChangeNotifier {
       }
 
       // Play engine response after delay
-      Future<void>.delayed(const Duration(milliseconds: 600)).then((_) {
+      Future<void>.delayed(replyOpponentMoveDelay).then((_) {
         _playOpponentMove();
       });
     } else {
@@ -188,6 +211,40 @@ class PuzzleProvider extends ChangeNotifier {
     _lastMoveFrom = from;
     _lastMoveTo = to;
     _boardState = _boardState!.applyMove(uci);
+  }
+
+  Future<void> requestHint() async {
+    final puzzle = _currentPuzzle;
+    if (puzzle == null) return;
+
+    _hintLoading = true;
+    _hintError = null;
+    notifyListeners();
+
+    final movesSoFar = puzzle.moves.take(_moveIndex).toList(growable: false);
+
+    try {
+      final analysis = await _engineService.analyzePosition(
+        fen: puzzle.fen,
+        moves: movesSoFar,
+        multipv: 3,
+        timeout: engineTimeout,
+      );
+      _latestHint = analysis;
+      _hintError = null;
+    } on ChessEngineException catch (e) {
+      _latestHint = null;
+      _hintError = e.userMessage;
+    } catch (_) {
+      _latestHint = null;
+      _hintError = const ChessEngineException(
+        ChessEngineErrorType.unknown,
+        'Unexpected hint failure.',
+      ).userMessage;
+    } finally {
+      _hintLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> _markSolved() async {
