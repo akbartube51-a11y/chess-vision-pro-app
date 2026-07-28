@@ -7,17 +7,36 @@ Chess Vision Pro Mobile is the Android + iOS companion app for the Chess Vision 
 
 ---
 
-## Feature Set
+## ✅ Code Completed
 
-- ✅ Puzzle list/browse with rating, themes, and difficulty label
-- ✅ Interactive chessboard puzzle solving (tap-to-move, FEN-based)
-- ✅ Analysis board with move history and undo
-- ✅ Local persistence via SQLite (puzzle progress tracking)
-- ✅ Resume-aware progress (solved count, attempts)
-- ✅ Light + dark + system themes
-- ✅ Auto-flip board for Black
-- ✅ 10 built-in sample puzzles (seeded on first launch)
-- ✅ Android + iOS support from single codebase
+- [x] Flutter cross-platform app foundation established
+- [x] Puzzle list/browse with rating, themes, and difficulty label
+- [x] Interactive chessboard puzzle solving (tap-to-move, FEN-based)
+- [x] Analysis board with move history and undo
+- [x] Local persistence via SQLite (puzzle progress tracking)
+- [x] Resume-aware progress (solved count, attempts)
+- [x] Light + dark + system themes
+- [x] Auto-flip board for Black
+- [x] 10 built-in sample puzzles (seeded on first launch)
+- [x] Android + iOS support from single codebase
+- [x] Core architecture with providers, routing, repository abstraction, and reusable chess board widget
+- [x] Baseline test coverage for chess logic and board rendering
+
+---
+
+## 🚧 Remaining Task List
+
+- [ ] Integrate chess engine for stronger analysis and hints
+- [ ] Add online puzzle sync/import pipeline (optional cloud mode)
+- [ ] Expand puzzle dataset beyond seeded sample set
+- [ ] Add advanced training modes (timed drills, custom themes, streak tracking)
+- [ ] Improve accessibility with richer screen-reader semantics and voice guidance
+- [ ] Add localization/internationalization support
+- [ ] Increase test coverage (state management, repository layer, end-to-end flows)
+- [ ] Add CI quality gates (format, analyze, test) on pull requests
+- [ ] Add production-grade release pipeline and signing automation
+- [ ] Add in-app privacy/permissions explainer screens
+- [ ] Publish contribution guidelines and development roadmap
 
 ---
 
@@ -121,7 +140,7 @@ flutter build ios --release
 flutter test
 ```
 
-Tests cover:
+Tests currently cover:
 - `chess_logic_test.dart` — FEN parsing, move application, Square, Puzzle model
 - `widget_test.dart` — ChessBoardWidget rendering
 
@@ -153,4 +172,3 @@ Desktop project concept and ecosystem:
 - https://github.com/akbartube51-a11y/chess-vision-pro
 
 Developed under the AIM Akbar Hossain / Agartala Chess Academy ecosystem.
-
