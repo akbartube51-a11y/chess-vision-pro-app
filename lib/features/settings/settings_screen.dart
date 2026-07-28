@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
       body: ListView(
         children: [
           const _SectionHeader(title: 'Appearance'),
-          ListTile(
+          const ListTile(
             leading: const Icon(Icons.brightness_medium),
             title: const Text('Theme'),
             trailing: SegmentedButton<ThemeMode>(
@@ -59,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
           ),
           const Divider(),
           const _SectionHeader(title: 'About'),
-          ListTile(
+          const ListTile(
             leading: const Icon(Icons.info_outline),
             title: const Text('Chess Vision Pro'),
             subtitle: const Text('Version 1.0.0'),

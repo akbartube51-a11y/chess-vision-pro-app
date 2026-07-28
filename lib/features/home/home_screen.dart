@@ -119,7 +119,7 @@ class _HeroHeader extends StatelessWidget {
           Text(
             'Sharpen your tactics. Solve puzzles. Master the board.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: colorScheme.onPrimaryContainer.withValues(alpha: 0.8),
+                  color: colorScheme.onPrimaryContainer.withOpacity(0.8),
                 ),
           ),
         ],

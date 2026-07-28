@@ -26,7 +26,7 @@ class AppTheme {
           centerTitle: true,
           elevation: 2,
         ),
-        cardTheme: const CardThemeData(
+        cardTheme: const CardTheme(
           elevation: 2,
           margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         ),
@@ -61,7 +61,7 @@ class AppTheme {
           centerTitle: true,
           elevation: 2,
         ),
-        cardTheme: const CardThemeData(
+        cardTheme: const CardTheme(
           elevation: 2,
           margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         ),
