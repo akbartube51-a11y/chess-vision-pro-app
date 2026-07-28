@@ -104,7 +104,7 @@ class PuzzleProvider extends ChangeNotifier {
   int get streakCount => _streakCount;
 
   DateTime? _timedRoundStartedAt;
-  Duration _timedRoundDuration = const Duration(minutes: 3);
+  final Duration _timedRoundDuration = const Duration(minutes: 3);
 
   int get timedSecondsRemaining {
     if (_timedRoundStartedAt == null) return _timedRoundDuration.inSeconds;
@@ -165,7 +165,9 @@ class PuzzleProvider extends ChangeNotifier {
     _totalCount = await _repo.countTotal();
     _availableThemes = await _repo.fetchAvailableThemes();
     if (_defaultSource != null) {
-      _syncState = await _repo.fetchSyncState(_defaultSource!.sourceId);
+      final source = _defaultSource;
+      _syncState =
+          source == null ? null : await _repo.fetchSyncState(source.sourceId);
     }
     _loading = false;
     _loadingMore = false;

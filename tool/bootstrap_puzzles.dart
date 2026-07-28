@@ -14,12 +14,6 @@ Future<void> main(List<String> args) async {
       Uri.tryParse(options['url'] ?? '') ?? LichessPuzzleSource().defaultUri;
   final batchSize = int.tryParse(options['batch-size'] ?? '') ?? 250;
 
-  if (uri == null) {
-    stderr.writeln('No source URL configured.');
-    exitCode = 64;
-    return;
-  }
-
   final sink = outputPath == null
       ? stdout
       : (File(outputPath)..createSync(recursive: true)).openWrite();
@@ -34,10 +28,8 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  if (sink is IOSink) {
-    await sink.flush();
-    if (!identical(sink, stdout)) {
-      await sink.close();
-    }
+  await sink.flush();
+  if (!identical(sink, stdout)) {
+    await sink.close();
   }
 }

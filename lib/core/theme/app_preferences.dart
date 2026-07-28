@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum BoardThemePreset { tournament, forest, midnight }
 
 extension BoardThemePresetX on BoardThemePreset {

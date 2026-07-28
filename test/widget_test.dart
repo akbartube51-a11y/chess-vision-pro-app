@@ -49,7 +49,7 @@ void main() {
     });
 
     testWidgets('exposes semantic square labels', (tester) async {
-      final semantics = SemanticsTester(tester);
+      final semanticsHandle = tester.ensureSemantics();
       final board = BoardState.fromFen('8/8/8/8/8/8/8/R3K2R w KQ - 0 1');
 
       await tester.pumpWidget(
@@ -67,10 +67,10 @@ void main() {
       );
 
       expect(
-        semantics,
-        includesNodeWith(label: 'Square e1, dark square, white king'),
+        find.bySemanticsLabel('Square e1, dark square, white king'),
+        findsOneWidget,
       );
-      semantics.dispose();
+      semanticsHandle.dispose();
     });
   });
 }

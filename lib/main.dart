@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:chess_vision_pro/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'core/routing/app_router.dart';
@@ -67,7 +67,7 @@ class ChessVisionProApp extends StatelessWidget {
       ),
       themeMode: settings.themeMode,
       locale: settings.locale,
-      localizationsDelegates: const [
+      localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
