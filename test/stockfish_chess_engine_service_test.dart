@@ -50,13 +50,13 @@ Future<File> _createFakeEngineScript() async {
   await file.writeAsString('''
 #!/usr/bin/env bash
 while IFS= read -r line; do
-  if [[ "$line" == "uci" ]]; then
+  if [[ "\$line" == "uci" ]]; then
     echo "uciok"
   fi
-  if [[ "$line" == "isready" ]]; then
+  if [[ "\$line" == "isready" ]]; then
     echo "readyok"
   fi
-  if [[ "$line" == go* ]]; then
+  if [[ "\$line" == go* ]]; then
     echo "info depth 12 multipv 1 score cp 23 pv e2e4 e7e5"
     echo "info depth 12 multipv 2 score cp 15 pv d2d4 d7d5"
     echo "bestmove e2e4 ponder e7e5"

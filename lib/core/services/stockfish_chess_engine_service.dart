@@ -7,7 +7,7 @@ import 'chess_engine_service.dart';
 typedef ProcessStarter = Future<Process> Function(
     String executable, List<String> arguments);
 
-class StockfishChessEngineService implements ChessEngineService {
+class StockfishChessEngineService extends ChessEngineService {
   StockfishChessEngineService({
     this.executable = 'stockfish',
     ProcessStarter? processStarter,
@@ -105,7 +105,7 @@ class StockfishChessEngineService implements ChessEngineService {
 
       final resolvedBestMove = bestMove ?? bestByPv[1];
       if (resolvedBestMove == null || resolvedBestMove.length < 4) {
-        throw ChessEngineException(
+        throw const ChessEngineException(
           ChessEngineErrorType.invalidResponse,
           'Best move was missing from engine output.',
         );

@@ -122,8 +122,9 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         _analysisResult = 'Could not analyze this position right now.';
       });
     } finally {
-      if (!mounted) return;
-      setState(() => _analysisLoading = false);
+      if (mounted) {
+        setState(() => _analysisLoading = false);
+      }
     }
   }
 

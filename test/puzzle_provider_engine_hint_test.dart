@@ -65,7 +65,7 @@ void main() {
   });
 }
 
-class _FakeEngineService implements ChessEngineService {
+class _FakeEngineService extends ChessEngineService {
   _FakeEngineService({this.analysis, this.exception});
 
   final ChessEngineAnalysis? analysis;
